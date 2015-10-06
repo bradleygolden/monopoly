@@ -12,7 +12,7 @@ public class Player
     private Property[] properties;  // list of properties owned by the player
 
     public Player() 
-        //POST:  a new player will be created with $0, starting at Go, no properties
+    //POST:  a new player will be created with $0, starting at Go, no properties
     {
         money = 0;
         //location = BoardLocation.GO;
