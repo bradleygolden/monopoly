@@ -6,9 +6,9 @@
 
 public abstract class Property 
 {
-    Player owner; // The owner of the property
-    private int price; // The purchase price of the property
-    private int baseRent; // The cost of rent on a given space without improvements 
+    protected Player owner; // The owner of the property
+    protected int price; // The purchase price of the property
+    protected int baseRent; // The cost of rent on a given space without improvements 
 
     // POST: baseRent is set to 0, price is set to 0, owner is set to null
     //       Subclasses will initialize these values as needed
