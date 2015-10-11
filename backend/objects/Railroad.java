@@ -16,13 +16,15 @@ public class Railroad extends Property
         super.baseRent = 25; // The baseRent without owning extra railroads
 
         ownerProperties = super.owner.getProperties(); // Get an array of properties this owner owns
-        numRailroadsOwned = this.getNumRailroadsOwned(); // Get number of railroads owned by this owner
+
+        // Get number of railroads owned by this owner
+        numRailroadsOwned = this.getNumRailroadsOwned();     
     }
 
     // PRE: An owner of type Player
     // POST: FCTVAL == count >= 0 and count <=4 (4 being the number of RR's on the board)
     //       Count represents the number of railroads owned by the current player
-    private int getNumRailroadsOwned(Player owner)
+    private int getNumRailroadsOwned()
     {
         int count = 0; // count the properties that are a railroad
 
