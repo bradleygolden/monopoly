@@ -4,16 +4,18 @@
 // Description:
 //
 
-public abstract class Property 
+public abstract class Property extends BoardLocation
 {
     protected Player owner; // The owner of the property
     protected int price; // The purchase price of the property
     protected int baseRent; // The cost of rent on a given space without improvements 
 
-    // POST: baseRent is set to 0, price is set to 0, owner is set to null
+    // POST: A property object is created
+    //       baseRent is set to 0, price is set to 0, owner is set to null
     //       Subclasses will initialize these values as needed
     public Property()
     {
+        super();
         baseRent = 0;
         price = 0;
         owner = null;
@@ -21,5 +23,4 @@ public abstract class Property
 
     // POST: FCTVAL = rent as an integer in dollar units for the current property
     public abstract int getRent();
-
 }
