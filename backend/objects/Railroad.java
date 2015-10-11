@@ -9,7 +9,7 @@ public class Railroad extends Property
     private int numRailroadsOwned; // The number of railroads owned by the current owner of this RR
     private Property[] ownerProperties; // An array of properties owned by the player
 
-    public Railroad();
+    public Railroad()
     {
         super();
         super.price = 200; // The cost of a railroad
@@ -28,13 +28,13 @@ public class Railroad extends Property
 
         for (Property aProperty : ownerProperties) // loop through properties in owner properties
         {
-            if (aProperty.isInstance(Railroad)) // check if a property is an instance of railroad
+            if (aProperty instanceof Railroad) // check if a property is an instance of railroad
             {
                 count++; // increment count if railraod instance is found
             }
         }
 
-        return count;
+        return count; // return number of railroads counted
     }
 
     // POST: FCTVAL == The current rent * number of railroads owned by this owner as an intenger 
@@ -46,7 +46,7 @@ public class Railroad extends Property
         // Railroad rent is $25*(the number of railroads owned by the player owning this RR)
         currRent = baseRent * numRailroadsOwned; // current rent including additional railroads
 
-        return currRent;
+        return currRent; // return current rent value
     }
 
     public int sell()
