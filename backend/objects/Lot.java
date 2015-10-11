@@ -51,11 +51,13 @@ public class Lot extends Property
         
     }
 
-    public void buy()
-    // PRE:
-    // POST:
+    public void buy(Player buyer)
+    // PRE:  Player is initialized
+    // POST: class member owner is set to buyer and 
+    //       owners money is withdrawn based on price of lot
     {
-
+        super.owner = buyer;
+        super.owner.withdraw(super.baseRent);
     }
 
     public void sellImprovement()
