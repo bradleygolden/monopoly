@@ -74,9 +74,20 @@ public class Railroad extends Property
           -------------------------------------*/
     }
 
+    // PRE: player has enough money to purchase the property
+    // POST: purchaser's account value has been reduced by the cost of the property
     public int buy(Player buyer)
     {
-        super.owner = buyer;
-        super.owner.withdraw(super.baseRent);
+        super.owner = buyer; // set the current owner to the buyer of this property
+        buyer.withdraw(super.baseRent); // withdraw price of property from buyers cash
+    }
+
+    // POST: FCTVAL == A string containing the name, rent, and price of this property
+    public void toString()
+    {
+        return "Name: " + this.name + "\t" +
+            "Rent: " + this.getRent() + "\t" +
+            "Price: " + this.price + "\t" +
+            "";
     }
 }
