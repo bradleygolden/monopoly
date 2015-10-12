@@ -11,7 +11,6 @@ public class Railroad extends Property
 
     public Railroad()
     {
-        super();
         super.price = 200; // The cost of a railroad
         super.baseRent = 25; // The baseRent without owning extra railroads
 
@@ -19,6 +18,17 @@ public class Railroad extends Property
 
         // Get number of railroads owned by this owner
         numRailroadsOwned = this.getNumRailroadsOwned();     
+    }
+    
+    public Railroad(String name, int address)
+    {
+        super(name, address);
+    }
+
+    @Override
+    public int getRent()
+    {
+        return baseRent;
     }
 
     // PRE: An owner of type Player
@@ -37,46 +47,5 @@ public class Railroad extends Property
         }
 
         return count; // return number of railroads counted
-    }
-
-    // POST: FCTVAL == The current rent * number of railroads owned by this owner as an intenger 
-    //                 currRent >= 0 and currRent <= 200
-    public int getRent()
-    {
-        int currRent; // the current rent including additional railroads owned
-
-        // Railroad rent is $25*(the number of railroads owned by the player owning this RR)
-        currRent = baseRent * numRailroadsOwned; // current rent including additional railroads
-
-        return currRent; // return current rent value
-    }
-
-    public int sell()
-    {
-        /*-------------------------------------
-
-          COPIED FROM http://www.hasbro.com/common/instruct/monins.pdf
-
-          Unimproved properties, railroads and
-          utilities (but not buildings) may be sold to any player as a private
-          transaction for any amount the owner can get; however, no property
-          can be sold to another player if buildings are standing on any
-          properties of that color-group. Any buildings so located must be sold
-          back to the Bank before the owner can sell any property of that color-group.
-          Houses and hotels may be sold back to the Bank at any time for
-          one-half the price paid for them.
-          All houses on one color-group must be sold one by one, evenly, in
-          reverse of the manner in which they were erected.
-          All hotels on one color-group may be sold at once, or they may be
-          sold one house at a time (one hotel equals five houses), evenly, in
-          reverse of the manner in which they were erected.
-
-          -------------------------------------*/
-    }
-
-    public int buy(Player buyer)
-    {
-        super.owner = buyer;
-        super.owner.withdraw(super.baseRent);
     }
 }

@@ -21,6 +21,11 @@ public abstract class Property extends BoardLocation
         owner = null;
     }
 
+    public Property(String name, int address)
+    {
+        super(name, address);
+    }
+
     // POST: FCTVAL = rent as an integer in dollar units for the current property
     public abstract int getRent();
 

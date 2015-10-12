@@ -7,7 +7,7 @@ import java.awt.Color;
 
 public class TestDriver
 {
-    public static void main()
+    public static void main(String[] args)
     {
         int num = 15;
         BoardLocation[] board = new BoardLocation[num];    
@@ -34,26 +34,24 @@ public class TestDriver
 
         //South side of the board
         board[0] = new CornerSquare("Go", 0);
-        //board[1] = new Lot("Mediterranean Avenue", 1, SADDLE_BROWN, 60, 0);
-        //board[2] = new CardSquare("Community Chest", 2);
-        //board[3] = new Lot("Baltic Avenue", 3, SADDLE_BROWN, 60, 0);
-        //board[4] = new TaxSquare("Income Tax", 4);
-        //board[5] = new Railroad("Reading Railroad", 5);
-        //board[6] = new Lot("Oriental Avenue", 6, SKY_BLUE, 100, 0);
-        //board[7] = new CardSquare("Chance", 7);
-        //board[8] = new Lot("Vermont Avenue", 8, SKY_BLUE, 100 ,0);
-        //board[9] = new Lot("Connecticut Avenue", 9, SKY_BLUE, 120, 0);
+        board[1] = new Lot("Mediterranean Avenue", 1, SADDLE_BROWN, 60, 0);
+        board[2] = new CardSquare("Community Chest", 2);
+        board[3] = new Lot("Baltic Avenue", 3, SADDLE_BROWN, 60, 0);
+        board[4] = new TaxSquare("Income Tax", 4);
+        board[5] = new Railroad("Reading Railroad", 5);
+        board[6] = new Lot("Oriental Avenue", 6, SKY_BLUE, 100, 0);
+        board[7] = new CardSquare("Chance", 7);
+        board[8] = new Lot("Vermont Avenue", 8, SKY_BLUE, 100 ,0);
+        board[9] = new Lot("Connecticut Avenue", 9, SKY_BLUE, 120, 0);
 
-        //board[10] = new CornerSquare("Jail", 10);
+        board[10] = new CornerSquare("Jail", 10);
 
         //// West side of the board
-        //board[11] = new Lot("St. Charles Place", 11, DARK_ORCHARD, 140, 0);
-        //board[12] = new Utility("Electric Company", 12);
-        //board[13] = new Lot("States Avenue", 13, DARK_ORCHARD, 140, 0);
-        //board[14] = new Lot("Virginia Avenue", 14, DARK_ORCHARD, 160, 0);
+        board[11] = new Lot("St. Charles Place", 11, DARK_ORCHARD, 140, 0);
+        board[12] = new Utility("Electric Company", 12);
+        board[13] = new Lot("States Avenue", 13, DARK_ORCHARD, 140, 0);
+        board[14] = new Lot("Virginia Avenue", 14, DARK_ORCHARD, 160, 0);
         //board[15] = new Railroad("Pennsylvania Railroad", 15);
-
-        
         //board[16] = new Lot("St. James Place", 16, ORANGE, 180, 0);
         //board[17] = new CardSquare("Community Chest", 17);
         //board[18] = new Lot("Tennesse Avenue", 18, ORANGE, 180, 0);
