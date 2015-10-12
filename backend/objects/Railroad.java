@@ -9,43 +9,36 @@ public class Railroad extends Property
     private int numRailroadsOwned; // The number of railroads owned by the current owner of this RR
     private Property[] ownerProperties; // An array of properties owned by the player
 
+    // POST: a railroad object is created with price = 200, baseRent = 25
     public Railroad()
     {
         super.price = 200; // The cost of a railroad
         super.baseRent = 25; // The baseRent without owning extra railroads
-
-        ownerProperties = super.owner.getProperties(); // Get an array of properties this owner owns
-
-        // Get number of railroads owned by this owner
-        numRailroadsOwned = this.getNumRailroadsOwned();     
     }
     
+    // PRE: name is the name of the railroad and address is the distance from GO
+    //      address = 5, 15, 25, or 35
+    // POST: a railroad object is created with name = name and address = address
     public Railroad(String name, int address)
     {
-        super(name, address);
+        this();
+        super.name = name;
+        super.address = address;
     }
 
-    @Override
+    // POST: FCTVAL == return baseRent
+    //                 baseRent >= 0
     public int getRent()
     {
-        return baseRent;
+        return super.baseRent;
     }
 
-    // PRE: An owner of type Player
-    // POST: FCTVAL == count >= 0 and count <=4 (4 being the number of RR's on the board)
-    //       Count represents the number of railroads owned by the current player
-    private int getNumRailroadsOwned()
+    // PRE: player is initialized
+    // POST: FCTVAL == array of options player has upon landing on
+    //                 this space, to be used in a menu in a user interface
+    public String getPossibleActions(Player player)
     {
-        int count = 0; // count the properties that are a railroad
-
-        for (Property aProperty : ownerProperties) // loop through properties in owner properties
-        {
-            if (aProperty instanceof Railroad) // check if a property is an instance of railroad
-            {
-                count++; // increment count if railraod instance is found
-            }
-        }
-
-        return count; // return number of railroads counted
+        // Does nothing yet
+        return "";
     }
 }
