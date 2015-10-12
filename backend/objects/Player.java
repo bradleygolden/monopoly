@@ -16,6 +16,7 @@ public class Player
     {
         money = 0;
         token = "shoe";
+        //location = null;
     }
 
     public Player(int money, String token) 
@@ -113,11 +114,17 @@ public class Player
     public String toString() 
     //POST: will return string represnetation of player
     {
-        String s = "Player \"" + token + "\" with $" + money + ", at " + location.toString();
-        s += " owns: ";
-        for(Property p : properties) // adds up properties
+        String s = "Token: " + token + " " +
+            "Money: " + money + " " +
+        //    "Location: " + location.toString() + " " + 
+            " ";
+        if (properties != null)
         {
-            s += p.toString() + "\n";
+            s += "Properties: ";
+            for(Property p : properties) // adds up properties
+            {
+                s += p.toString() + "\n";
+            }
         }
         return s;
     }

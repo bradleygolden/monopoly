@@ -31,6 +31,10 @@ public class TestDriver
         // TaxSquare(name, address) 
         // Railroad(name, address)
         // Utility(name, address)
+        //
+        System.out.println("----------------------------");
+        System.out.println("        Board Tests         ");
+        System.out.println("----------------------------");
 
         //South side of the board
         board[0] = new CornerSquare("Go", 0);
@@ -88,6 +92,19 @@ public class TestDriver
         {
             System.out.println(boardElem.toString());
         }
-    }
 
+        System.out.println("----------------------------");
+        System.out.println("        Player Tests        ");
+        System.out.println("----------------------------");
+
+        Player[] players = new Player[3];
+        players[0] = new Player(100000, "Dog");
+        players[1] = new Player(100000, "Top Hat");
+        players[2] = new Player(100000, "Boot");
+
+        for (Player playerElem : players)
+        {
+            System.out.println(playerElem.toString());
+        }
+    }
 }
