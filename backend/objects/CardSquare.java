@@ -18,6 +18,11 @@ public class CardSquare extends BoardLocation
         super();                                 // call superclass constructor
     }
 
+    public CardSquare(String name, int address)
+    {
+        super(name, address);
+    }
+
     public String toString()
     // POST: FCTVAL == string representation of this CardSquare
     {   
@@ -27,13 +32,13 @@ public class CardSquare extends BoardLocation
     public int drawChance()
     // POST: FCTVAL == random dollar amount to be taken or given to the player
     {
-        return (int) ( (Math.random() * (MAX - MIN) + 1) + MIN)
+        return (int) ( (Math.random() * (MAX - MIN) + 1) + MIN);
     }
 
     public int drawCommunityChest()
     // POST: FCTVAL == random dollar amount to be taken or given to the player
     {
-        return (int) ( (Math.random() * (MAX - MIN) + 1) + MIN)
+        return (int) ( (Math.random() * (MAX - MIN) + 1) + MIN);
     }
 
 }

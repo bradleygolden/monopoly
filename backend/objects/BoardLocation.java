@@ -12,7 +12,7 @@ public class BoardLocation
     public BoardLocation()
     //POST: sets address and name to nothing
     {
-        address = "";
+        address = 0;
         name = "";
     }
 
@@ -41,7 +41,8 @@ public class BoardLocation
     @Override
     public String toString() 
     {
-        return name + ", " + address;
+        return "Name: " + name + " " +
+            "Address: " + address;
     }
 
 }

@@ -4,43 +4,27 @@
 // Description:
 //
 
-public class CornerSquare 
+public class CornerSquare extends BoardLocation
 {
-    private int goAmount; // the pass go amount
 
-    public CornerSquare(String name, int address, int goAmount)
-    // PRE: name and address are valid, and goAmount >= 0
+    // POST: a CornerSquare object is created
+    public CornerSquare()
+    {
+        super();
+    }
+
+    public CornerSquare(String name, int address)
+    // PRE: name and address are valid
     //POST: CornerSquare will be made with the specified attributes
     {
         super(name, address);
-        this.goAmount = goAmount;
     }
 
-    // POST: sets goamount to goamount
-    public CornerSquare(int goAmount)
-    {
-        super();
-        this.name = name;
-        this.address = address;
-    }
-
-    public int getGoAmount()
-    //POST: returns goAmount
-    {
-        return goAmount;
-    }
-
-    public int collectGo()
-    //POST: returns goAmount
-    {
-        return goAmount;
-    }
-
-    // POST: FCTVAL = go amount
+    // POST: FCTVAL = name and address
     @Override
     public String toString() 
     {
-        return "Pass go amount: " + goAmount;
+        return "Name: " + super.name + " " + 
+            "Address: " + super.address;
     }
-
 }
