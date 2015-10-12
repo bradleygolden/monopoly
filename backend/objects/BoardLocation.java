@@ -6,8 +6,15 @@
 
 public class BoardLocation 
 {
-    protected final int address; // number of spaces from Go
-    protected final String name; // name of current location
+    protected int address; // number of spaces from Go
+    protected String name; // name of current location
+
+    public BoardLocation()
+    //POST: sets address and name to nothing
+    {
+        address = "";
+        name = "";
+    }
 
     // POST: sets address to address, and the name
     //       of the board location to name
