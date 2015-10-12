@@ -12,9 +12,19 @@ public class Railroad extends Property
     // POST: a railroad object is created with price = 200, baseRent = 25
     public Railroad()
     {
-        super();
         super.price = 200; // The cost of a railroad
         super.baseRent = 25; // The baseRent without owning extra railroads
+    }
+    
+    public Railroad(String name, int address)
+    {
+        super(name, address);
+    }
+
+    @Override
+    public int getRent()
+    {
+        return baseRent;
     }
 
     // PRE: name is the name of the railroad and address is the distance from GO
@@ -26,6 +36,7 @@ public class Railroad extends Property
         super.name = name;
         super.address = address;
     }
+<<<<<<< HEAD
 
     // POST: FCTVAL == The current rent * number of railroads owned by this owner as an intenger 
     //                 currRent >= 0 and currRent <= 200
@@ -80,4 +91,6 @@ public class Railroad extends Property
             "Price: " + this.price + "\t" +
             "";
     }
+=======
+>>>>>>> 8a1f1faa629676ef5378088d9dabc06b069b7f2c
 }

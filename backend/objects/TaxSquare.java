@@ -19,6 +19,11 @@ public class TaxSquare extends BoardLocation
         super();                                 // call superclass constructor
     }
 
+    public TaxSquare(String name, int address)
+    {
+        super(name, address);
+    }
+
     public String toString()
     // POST: FCTVAL == string representation of this TaxSquare
     {   
