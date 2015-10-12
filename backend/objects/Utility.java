@@ -32,7 +32,8 @@ public class Utility extends Property
     // POST: FCTVAL == The current rent of landing on this utility
     public int getRent()
     {
-        return baseRent;
+        // This method is not implemented yet.
+        // It will return the diceRoll * number of utilities owned the player who owns this utility
     }
 
     public int sell()
@@ -58,6 +59,7 @@ public class Utility extends Property
           -------------------------------------*/
     }
 
+    // POST: player has the baseRent withdrawn from their account
     public int buy(Player buyer)
     {
         super.owner = buyer;
