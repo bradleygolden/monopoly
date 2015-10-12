@@ -41,6 +41,17 @@ public class Player
         return properties;
     }
 
+    public String propertiesToString()
+    //POST: returns list of properties owned comma sperated
+    {
+        String acc = "";
+        for(Property p : properties) // adds up properties
+        {
+            acc += p.toString() + ", ";
+        }
+        return acc;
+    }
+
     public BoardLocation getBoardLocation()
     //POST: returns player location
     {
