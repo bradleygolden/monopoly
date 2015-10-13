@@ -15,7 +15,7 @@ public class Railroad extends Property
         super.price = 200; // The cost of a railroad
         super.baseRent = 25; // The baseRent without owning extra railroads
     }
-    
+
     // PRE: name is the name of the railroad and address is the distance from GO
     //      address = 5, 15, 25, or 35
     // POST: a railroad object is created with name = name and address = address
