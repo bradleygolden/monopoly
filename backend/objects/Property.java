@@ -6,6 +6,7 @@
 
 public abstract class Property extends BoardLocation
 {
+    protected static final String[] POSSIBLE_ACTIONS =  {"Purchase", "Park for free", "Pay rent"};
     protected Player owner; // The owner of the property
     protected int price; // The purchase price of the property
     protected int baseRent; // The cost of rent on a given space without improvements 
@@ -15,19 +16,19 @@ public abstract class Property extends BoardLocation
     //       Subclasses will initialize these values as needed
     public Property()
     {
-        super();
         baseRent = 0;
         price = 0;
         owner = null;
     }
 
+    // POST: A property object is created with name set to name and address set to address
     public Property(String name, int address)
     {
         super(name, address);
     }
 
     // POST: FCTVAL = rent as an integer in dollar units for the current property
-    public abstract int getRent();
+    public abstract int getRent(Player player);
 
     // POST: FCTVAL == return baseRent value property
     public int getBaseRent()
@@ -66,5 +67,53 @@ public abstract class Property extends BoardLocation
     public void setOwner(Player owner)
     {
         this.owner = owner;
+    }
+
+    // PRE: player != null
+    // POST: a string of possible player actions is returned
+    public String[] getPossibleActions(Player player)
+    {
+        String[] possibleActions;
+        // check if space is unowned and player has enough cash to purchase property
+        if (this.owner == null && player.getMoney() >= this.price)
+        {
+            // player can either buy the property or park for free
+            possibleActions = new String[2];
+            possibleActions[0] = POSSIBLE_ACTIONS[0];
+            possibleActions[1] = POSSIBLE_ACTIONS[1];
+            return possibleActions;
+        }
+        // check if space is unowned and player doesn't have enough cash to purchase property
+        else if (this.owner == null && player.getMoney() < this.price)
+        {
+            // player can't do anything
+            possibleActions = new String[1];
+            possibleActions[0] = POSSIBLE_ACTIONS[1];
+            return possibleActions;
+        }
+        // check if the space is owned by someone other than the player
+        else if (this.owner != null && this.owner != player)
+        {
+            // player must pay rent
+            possibleActions = new String[1];
+            possibleActions[0] = POSSIBLE_ACTIONS[2]; // player pays rent
+            return possibleActions;
+        }
+        // check if the player is the owner of the space
+        else if (this.owner == player)
+        {
+            // player can park for free
+            possibleActions = new String[1];
+            possibleActions[0] = POSSIBLE_ACTIONS[1]; // player can park for free
+            return possibleActions;
+        }
+        else 
+        {
+            // a case hasn't been accounted for
+            possibleActions = new String[1];
+            possibleActions[0] = "An error has occured in getPossibleActions. Boundary case not"
+                + "accounted for";
+            return possibleActions;
+        }
     }
 }
