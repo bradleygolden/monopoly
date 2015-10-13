@@ -30,6 +30,43 @@ public abstract class Property extends BoardLocation
     // POST: FCTVAL = rent as an integer in dollar units for the current property
     public abstract int getRent(Player player);
 
+    public boolean buy(Player buyer)
+    {
+        // check if buyer is the current owner of this property
+        if (buyer == this.owner)
+            return false;
+        // check if the property is currently owned by another player
+        if (buyer != this.owner)
+            return false;
+        // check if buyer has enough money to purchase the property
+        else if (buyer.getMoney() < this.price)
+            return false;
+        // check if buyer has enough money to purhcase
+        else if(buyer.getMoney() > this.price)
+        {
+            // charge buyer for property
+            if (buyer.removeMoney(this.price) == false)
+            {
+                return false;
+            }
+            // add property to owner properties
+            if (buyer.addProperty(this) == false)
+            {
+                return false;
+            }
+            // set the current propertie's owner instance to the buyer
+            this.owner = buyer;
+
+            return true;
+        }
+        // an error has occured
+        else
+        {
+            System.out.prntln("Error in Property.buy(). Please check your boundary cases");
+            return false;
+        }
+    }
+
     // POST: FCTVAL == return baseRent value property
     public int getBaseRent()
     {
