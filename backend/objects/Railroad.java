@@ -39,6 +39,22 @@ public class Railroad extends Property
     public String getPossibleActions(Player player)
     {
         // Does nothing yet
+        //If Reading Railroad un-owned and player cash >= mortgage value:
+        //if(this.owner == null && player.getCash() >= price)
+        //{
+            //Player may purchase reading railroad
+        //   
+        //}
+        //Else if Reading Railroad un-owned and player cash <= mortgage value:
+        // else if(this.owner == null && player.getCash() <= price) 
+        // {
+              //Do nothing
+        // }
+        //Else if Reading Railroad owned:
+        //else if(this.owner != null)
+        //{
+            //Charge rent to player based on number of railroads owned by the owner
+        //}
         return "";
     }
 }
