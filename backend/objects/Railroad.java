@@ -28,6 +28,7 @@ public class Railroad extends Property
 
     // POST: FCTVAL == return baseRent
     //                 baseRent >= 0
+    @Override
     public int getRent(Player player)
     {
         // check if the current space is owned
