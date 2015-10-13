@@ -28,7 +28,7 @@ public abstract class Property extends BoardLocation
     }
 
     // POST: FCTVAL = rent as an integer in dollar units for the current property
-    //public abstract int getRent();
+    public abstract int getRent(Player player);
 
     // POST: FCTVAL == return baseRent value property
     public int getBaseRent()
@@ -96,7 +96,15 @@ public abstract class Property extends BoardLocation
         {
             // player must pay rent
             possibleActions = new String[1];
-            possibleActions[0] = POSSIBLE_ACTIONS[2];
+            possibleActions[0] = POSSIBLE_ACTIONS[2]; // player pays rent
+            return possibleActions;
+        }
+        // check if the player is the owner of the space
+        else if (this.owner == player)
+        {
+            // player can park for free
+            possibleActions = new String[1];
+            possibleActions[0] = POSSIBLE_ACTIONS[1]; // player can park for free
             return possibleActions;
         }
         else 
