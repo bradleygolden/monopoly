@@ -28,33 +28,27 @@ public class Railroad extends Property
 
     // POST: FCTVAL == return baseRent
     //                 baseRent >= 0
-    public int getRent()
+    public int getRent(Player player)
     {
-        return super.baseRent;
-    }
-
-    // PRE: player is initialized
-    // POST: FCTVAL == array of options player has upon landing on
-    //                 this space, to be used in a menu in a user interface
-    public String getPossibleActions(Player player)
-    {
-        // Does nothing yet
-        //If Reading Railroad un-owned and player cash >= mortgage value:
-        //if(this.owner == null && player.getCash() >= price)
-        //{
-            //Player may purchase reading railroad
-        //   
-        //}
-        //Else if Reading Railroad un-owned and player cash <= mortgage value:
-        // else if(this.owner == null && player.getCash() <= price) 
-        // {
-              //Do nothing
-        // }
-        //Else if Reading Railroad owned:
-        //else if(this.owner != null)
-        //{
-            //Charge rent to player based on number of railroads owned by the owner
-        //}
-        return "";
+        // check if the current space is owned
+        if (this.owner == null)
+        {
+            return 0; // this space is not owned
+        }
+        // check if the current player is the owner
+        else if (player == this.owner)
+        {
+            return 0; // rent is 0 if the current player is the owner
+        }
+        // player will need to charge rent
+        else if (player != this.owner)
+        {
+            return super.baseRent; // TODO apply railroad algorithm here...
+        }
+        // a boundary case has not been account for
+        else
+        {
+            return -1; // an error has occurred
+        }
     }
 }
