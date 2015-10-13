@@ -66,6 +66,25 @@ public class Utility extends Property
         super.owner.withdraw(super.baseRent);
     }
 
+    public void getPossibleActions(Player player)
+    {
+        //If Utility un-owned and player cash >= mortgage value:
+        //if (this.owner == null && player.getCash() >= super.price)
+        //{
+                //Player may purchase this space
+        //}
+        //Else if Reading Railroad un-owned and player cash <= mortgage value:
+        //else if (this.owner == null && player.getCash() < super.price)
+        //{
+            //Do nothing
+        //}
+        //Else if Reading Railroad owned:
+        //else if (this.owner != null)
+        //{
+            //Charge rent to player based on number of railroads owned by the owner
+        //}
+    }
+
     // POST: A string containing the name, rent, and address of the utility at this boardlocation
     @Override 
     public String toString()
