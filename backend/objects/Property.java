@@ -6,6 +6,9 @@
 
 public abstract class Property extends BoardLocation
 {
+    protected final String[] options =  {"Purchase " + super.name, "Park for free", 
+              "You owe " + Integer.toString(this.getRent())};
+
     protected Player owner; // The owner of the property
     protected int price; // The purchase price of the property
     protected int baseRent; // The cost of rent on a given space without improvements 
@@ -61,5 +64,26 @@ public abstract class Property extends BoardLocation
     public void setOwner(Player owner)
     {
         this.owner = owner;
+    }
+
+    // PRE: player != null
+    // POST: a string of possible player actions is returned
+    public String getPossibleActions(Player player)
+    {
+        // check if space is unowned and player has enough cash to purchase property
+        if (this.owner == null && player.getMoney() >= this.price)
+        {
+            // player can purchase or do nothing
+        }
+        // check if space is unowned and player doesn't have enough cash to purchase property
+        else if (this.owner == null && player.getMoney() < this.price)
+        {
+            // player can't do anything
+        }
+        // check if the space is owned by someone other than the player
+        else if (this.owner != null && this.owner != this.player)
+        {
+            // player must pay rent
+        }
     }
 }
