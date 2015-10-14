@@ -52,6 +52,10 @@ public class Railroad extends Property
             return -1; // an error has occurred
         }
     }
+
+    /************************************
+     * Unit Testing
+    ************************************/
     public static void main(String[] args)
     {
         // create railroad space
@@ -70,16 +74,13 @@ public class Railroad extends Property
         Player owner = new Player(500, "Thimble");
 
         // have owner purchase that property
-        //if(board[0].buy(owner))
-        //{
-            //// do nothing
-        //} 
-
-        //else 
-        //{
-            ////System.out.println("Error adding owner");
-        //}
-
-        //// simulate player landing on railroad
+        if(owner.addProperty((Property)board[0]))
+        {
+            // player bought the property successfully
+        } 
+        else 
+        {
+           System.out.println("Error adding owner");
+        }
     }
 }
