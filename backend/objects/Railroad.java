@@ -76,6 +76,7 @@ public class Railroad extends Property
         // have owner purchase that property
         if(owner.addProperty((Property)board[0]))
         {
+            System.out.println(owner.propertiesToString());
             // player bought the property successfully
         } 
         else 
