@@ -9,6 +9,7 @@ import java.lang.String;
 
 public class CardSquare extends BoardLocation
 {
+    private static final String[] POSSIBLE_ACTIONS =  {"Collect Money"};  // Actions list 
     private static final int MAX = 200;          // max dollar amount player can win
     private static final int MIN = -200;         // minimum dollar amount player can lose
 
@@ -41,4 +42,16 @@ public class CardSquare extends BoardLocation
         return (int) ( (Math.random() * (MAX - MIN) + 1) + MIN);
     }
 
+    public String[] getPossibleActions(Player player)
+    // PRE:  player is initialized
+    // POST: FCTVAL == string of possible player actions
+    {   
+        String[] possibleActions;       // Gather strings of possible player actions
+    
+        possibleActions = new String[1];
+        possibleActions[0] = POSSIBLE_ACTIONS[0];
+
+        return possibleActions;
+    }   
+    
 }
