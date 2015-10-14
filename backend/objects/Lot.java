@@ -84,6 +84,11 @@ public class Lot extends Property
                "Price: "   + this.price    + " " +            
                "Rent:"     + this.baseRent + " " +           
                "Improvement Cost: " + this.improvementCost + " " + 
+               "One House: " + this.rent[1] + " " + 
+               "Two Houses: " + this.rent[2] + " " + 
+               "Three Houses: " + this.rent[3] + " " + 
+               "Four Houses: " + this.rent[4] + " " + 
+               "Hotel: " + this.rent[5] + " " + 
                "";
     }
 
