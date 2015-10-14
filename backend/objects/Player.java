@@ -15,6 +15,7 @@ public class Player
     //POST:  a new player will be created with $0, starting at Go, no properties, token: shoe
     {
         money = 0;
+        location = BoardLocation.GO;
         token = "shoe";
         //location = null;
     }
