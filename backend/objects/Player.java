@@ -29,14 +29,20 @@ public class Player
         properties = null;
     }
 
-    public Player(int money, String token) 
-    // PRE:  money >= 0 and token is a valid token string
+    public Player(int money, String token, BoardLocation location) 
+    // PRE:  money >= 0 and token is a valid token string location is valid
     //POST:  a new player will be created with the amount of money specified
-    //       and the token from the token string
+    //       and the token from the token string. And start position is location
     {
         this();
+        moveTo(location);
         this.money = money;
         this.token = token;
+    }
+
+    public void moveTo(BoardLocation location) 
+    {
+        this.location = location;
     }
 
     public int getMoney()
@@ -94,9 +100,9 @@ public class Player
         {
             newPropertyArray[i] = properties[i];
         }
-        newPropertyArray[properties.length + 1] = property;
+        newPropertyArray[properties.length] = property;
         properties = newPropertyArray;
-        newPropertyArray[properties.length + 1].setOwner(this);
+        newPropertyArray[properties.length].setOwner(this);
         return true;
     }
 
