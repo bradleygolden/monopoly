@@ -8,9 +8,27 @@
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
+import java.lang.Math;
 
 public class Dice
 {
+    // Data Dictionary
+    private int diceValue;                            // Holds a random value
+    
+    public Dice()
+    // POST: A default dice object is created with diceValue set to -1
+    {
+        this.diceValue = -1;                          // Default die value
+    }
+
+    public int rollDie()
+    // POST: FCTVAL == random diceValue (ie. random side of the die) 
+    {
+        diceValue = (int) ((Math.random() * 7) + 1);  // Random value from 1 to 6
+    
+        return diceValue;
+    }
+
     public void drawDie(Graphics g, int startX, int startY, 
                          int value, int squareSize, Color colorInput)
     // PRE:  g != NULL and drawing canvas is at least the size of squareSize in pixels,
