@@ -11,12 +11,22 @@ public class Player
     private String token;           // piece that represents player
     private Property[] properties;  // list of properties owned by the player
 
+    public static void main(String[] args) 
+    {
+        Player p = new Player(100, "Boot");
+        System.out.println(p.getMoney());
+        System.out.println(p.propertiesToString());
+        System.out.println(p.getBoardLocation());
+        System.out.println(p.getToken());
+        System.out.println(p.getProperties());
+    }
+
     public Player() 
     //POST:  a new player will be created with $0, starting at Go, no properties, token: shoe
     {
         money = 0;
         token = "Boot";
-        properties = new Property[0];
+        properties = null;
     }
 
     public Player(int money, String token) 
@@ -45,6 +55,10 @@ public class Player
     //POST: returns list of properties owned comma sperated
     {
         String acc = "";
+        if(properties == null)
+        {
+            return "";
+        }
         for(Property p : properties) // adds up properties
         {
             acc += p.toString() + ", ";
@@ -68,6 +82,13 @@ public class Player
     // PRE: property is a valid property
     //POST: property will be added to the list of players properties
     {
+        if(properties == null) 
+        {
+            Property[] newPropertyArray = new Property[] {property};
+            property.setOwner(this);
+            properties = newPropertyArray;
+            return true;
+        }
         Property[] newPropertyArray = new Property[properties.length + 1]; // new array
         for(int i = 0; i < properties.length; i++) // copy over old array
         {
