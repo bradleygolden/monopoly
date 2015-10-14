@@ -9,6 +9,10 @@ import java.lang.String;
 
 public class Lot extends Property
 {
+    private static final String[] POSSIBLE_ACTIONS =  {"Purchase", "Park for free", 
+                                                       "Pay rent", "Purchase improvement", 
+                                                       "Sell improvement"}; // Actions List
+
     private Color color;                 // The color of a given group of properties
     private int[] rent;                  // Rent Structure of a lot based on numImprovements
     private int   improvementCost;       // The cost of improving the current property
@@ -35,33 +39,59 @@ public class Lot extends Property
         this.rent = new int[6];                  // initialized to zero by default
     }
 
-    public Lot(String name, int address, Color color, int price, int rent)
+    public Lot(String name, int address, Color color, int price, int rent, int improvementCost)
+    // PRE:  name and color is initialized, address >= 0 with units as the number of 
+    //       spaces from GO, price >= 0 dollars, and rent >=0 dollars.
+    // POST: A lot object is created with super.name set to name, super.address set 
+    //       to address, color set to color, price set to price, and rent set to rent
     {
-        super();
-        super.name = name;
-        super.address = address;
+        super(name, address);
         this.color = color;
+        this.improvementCost = improvementCost;  // never changes after being set
+        this.numImprovements = 0;
+        this.rent = new int[6];                  // initialized to zero by default
         super.price = price;
         super.baseRent = rent;
+        super.owner = null;
     }
 
+    public Lot(String name, int address, Color color, int price, int rent, int improvementCost,
+               int oneImpr, int twoImpr, int threeImpr, int fourImpr, int fiveImpr)
+    // PRE:  name and color initialized, address >= 0 where the units are the number of 
+    //       spaces from GO, and price, rent, improvementCost, zeroImpr, oneImpr, twoImpr,
+    //       threeImpr, fourImpr, and fiveImpr are all >= 0 dollars.
+    // POST: A lot object is created with name set to name, address set to address, 
+    //       color set to color, price set to price, rent set to rent, improvementCost
+    //       set to improvementCost, and the rent at index numImprovements set to 
+    //       corresponding improvement value
+    {
+        this(name, address, color, price, rent, improvementCost);
+        this.rent[0] = super.baseRent;
+        this.rent[1] = oneImpr;
+        this.rent[2] = twoImpr;
+        this.rent[3] = threeImpr;
+        this.rent[4] = fourImpr;
+        this.rent[5] = fiveImpr;
+    }
+
+    // TODO: Add rent prices for each lot improvement
     public String toString()
-        // POST: FCTVAL == string representation of this Lot
+    // POST: FCTVAL == string representation of this Lot
     {
-        return "Name: " + super.name + " " +
-            "Address: " + super.address + " " +
-            "Color: " + this.color + " " + 
-            "Price: " + super.price + " " +            
-            "Rent:" + super.baseRent + " " +           
-            "";
+        return "Name: "    + this.name     + " " +
+               "Address: " + this.address  + " " +
+               "Color: "   + this.color    + " " + 
+               "Price: "   + this.price    + " " +            
+               "Rent:"     + this.baseRent + " " +           
+               "";
     }
 
-    public void sell(Player player)
-        // PRE:
-        // POST:
-    {
-
-    }
+    //public void sell(Player player)
+    // PRE:
+    // POST:
+    //{
+    //
+    //}
 
     public void sellImprovement()
         // POST: class member numImprovements is decreased by one if numImprovements
@@ -123,4 +153,52 @@ public class Lot extends Property
     {
         this.improvementCost = improvementCost; 
     }
+
+    public String[] getPossibleActions(Player player)
+    // PRE:  player is initialized
+    // POST: FCTVAL == string of possible player actions
+    {   
+        String[] possibleActions;                   // Gather strings of possible player actions
+
+        if (this.owner == null &&                              // lot is unowned and player
+            player.getMoney() >= this.price)                   //     has enough money to purchase
+        {                                                          
+            // player can either buy the property or park for free
+            possibleActions = new String[2];
+            possibleActions[0] = POSSIBLE_ACTIONS[0];
+            possibleActions[1] = POSSIBLE_ACTIONS[1];
+            return possibleActions;
+        }   
+        else if (this.owner == null &&                         // lot is unowned and player         
+                 player.getMoney() < this.price)               //    does not have enough money
+        {                                                            
+            // player can't do anything and parks for free
+            possibleActions = new String[1];
+            possibleActions[0] = POSSIBLE_ACTIONS[1];
+            return possibleActions;
+        }   
+        else if (this.owner != null &&                         // lot is owned by someone
+                 this.owner != player)                         //   other than player
+        {   
+            // player must pay rent
+            possibleActions = new String[1];
+            possibleActions[0] = POSSIBLE_ACTIONS[2];
+            return possibleActions;
+        }
+        else if (this.owner == player)                         // player owns this lot 
+        {
+            // player can park for free
+            possibleActions = new String[1];
+            possibleActions[0] = POSSIBLE_ACTIONS[1];
+            return possibleActions;
+        }
+        else                                                   // all options exhausted 
+        {   
+            // a case hasn't been accounted for
+            possibleActions = new String[1];
+            possibleActions[0] = "An error has occured in getPossibleActions. " 
+                                 + "Boundary case not accounted for!";
+            return possibleActions;
+        }   
+    }   
 }
