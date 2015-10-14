@@ -15,9 +15,8 @@ public class Player
     //POST:  a new player will be created with $0, starting at Go, no properties, token: shoe
     {
         money = 0;
-        location = BoardLocation.GO;
-        token = "shoe";
-        //location = null;
+        token = "Boot";
+        properties = new Property[0];
     }
 
     public Player(int money, String token) 
@@ -115,17 +114,11 @@ public class Player
     public String toString() 
     //POST: will return string represnetation of player
     {
-        String s = "Token: " + token + " " +
-            "Money: " + money + " " +
-        //    "Location: " + location.toString() + " " + 
-            " ";
-        if (properties != null)
+        String s = "Player \"" + token + "\" with $" + money + ", at " + location.toString();
+        s += " owns: ";
+        for(Property p : properties) // adds up properties
         {
-            s += "Properties: ";
-            for(Property p : properties) // adds up properties
-            {
-                s += p.toString() + "\n";
-            }
+            s += p.toString() + "\n";
         }
         return s;
     }
