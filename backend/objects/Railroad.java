@@ -15,7 +15,7 @@ public class Railroad extends Property
         super.price = 200; // The cost of a railroad
         super.baseRent = 25; // The baseRent without owning extra railroads
     }
-    
+
     // PRE: name is the name of the railroad and address is the distance from GO
     //      address = 5, 15, 25, or 35
     // POST: a railroad object is created with name = name and address = address
@@ -28,17 +28,59 @@ public class Railroad extends Property
 
     // POST: FCTVAL == return baseRent
     //                 baseRent >= 0
-    public int getRent()
+    @Override
+    public int getRent(Player player)
     {
-        return super.baseRent;
+        // check if the current space is owned
+        if (this.owner == null)
+        {
+            return 0; // this space is not owned
+        }
+        // check if the current player is the owner
+        else if (player == this.owner)
+        {
+            return 0; // rent is 0 if the current player is the owner
+        }
+        // player will need to charge rent
+        else if (player != this.owner)
+        {
+            return super.baseRent; // TODO apply railroad algorithm here...
+        }
+        // a boundary case has not been account for
+        else
+        {
+            return -1; // an error has occurred
+        }
     }
 
-    // PRE: player is initialized
-    // POST: FCTVAL == array of options player has upon landing on
-    //                 this space, to be used in a menu in a user interface
-    public String getPossibleActions(Player player)
+    /************************************
+     * Unit Testing
+    ************************************/
+    public static void main(String[] args)
     {
-        // Does nothing yet
-        return "";
+        // create railroad space
+        BoardLocation[] board = new BoardLocation[1];
+
+        // initalize with a railroad
+        board[0] = new Railroad("Reading Railroad", 5);
+
+        // print railroad details
+        System.out.println(board[0].toString());
+
+        // create mock player
+        Player player = new Player(300, "Boot");
+
+        // create mock owner
+        Player owner = new Player(500, "Thimble");
+
+        // have owner purchase that property
+        if(owner.addProperty((Property)board[0]))
+        {
+            // player bought the property successfully
+        } 
+        else 
+        {
+           System.out.println("Error adding owner");
+        }
     }
 }

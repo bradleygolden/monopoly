@@ -4,7 +4,7 @@
 // Description:
 //
 
-public class BoardLocation 
+public class BoardLocation
 {
     protected int address; // number of spaces from Go
     protected String name; // name of current location
@@ -25,13 +25,13 @@ public class BoardLocation
     }
 
     // POST: FCTVAL = the distance from Go
-    public int getAddress() 
+    public int getAddress()
     {
         return address;
     }
 
     // POST: FCTVAL = the name of this square
-    public String getName() 
+    public String getName()
     {
         return name;
     }
@@ -39,7 +39,7 @@ public class BoardLocation
     // POST: FCTVAL = the name of the square and its
     //       distance from Go
     @Override
-    public String toString() 
+    public String toString()
     {
         return "Name: " + name + " " +
             "Address: " + address;
