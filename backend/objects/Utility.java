@@ -47,7 +47,8 @@ public class Utility extends Property
     }
 
     // POST: FCTVAL == The current rent of landing on this utility
-    public int getRent()
+    @Override
+    public int getRent(Player player)
     {
         int diceRoll = 0; //TODO - Need to obtain the dice roll value from the player roll
 

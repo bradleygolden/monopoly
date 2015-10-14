@@ -83,6 +83,7 @@ public class Lot extends Property
                "Color: "   + this.color    + " " + 
                "Price: "   + this.price    + " " +            
                "Rent:"     + this.baseRent + " " +           
+               "Improvement Cost: " + this.improvementCost + " " + 
                "";
     }
 

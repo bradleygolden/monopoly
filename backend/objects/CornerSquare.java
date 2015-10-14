@@ -20,6 +20,14 @@ public class CornerSquare extends BoardLocation
         super(name, address);
     }
 
+    // 
+    @Override
+    public String[] getPossibleActions(Player player)
+    {
+        //TODO - do this!
+        return new String[] {""};
+    }
+
     // POST: FCTVAL = name and address
     @Override
     public String toString() 
