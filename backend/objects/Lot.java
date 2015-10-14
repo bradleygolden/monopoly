@@ -109,8 +109,8 @@ public class Lot extends Property
             this.numImprovements++;
     }
 
-    public int getRent()
-        // POST: FCTVAL == price of rent in dollars based on the numImprovements on lot
+    public int getRent(Player player)
+    // POST: FCTVAL == price of rent in dollars based on the numImprovements on lot
     {
         return this.rent[this.numImprovements];
     }
