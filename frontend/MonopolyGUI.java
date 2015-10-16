@@ -10,103 +10,103 @@ public class MonopolyGUI extends JApplet implements ActionListener
 {
     private JFrame frame; // used for pop up windows
 
-    /********************************
-     * player menu variables
-     * *****************************/
-    private JLabel playerLabel; // shows which player's turn it is
-    private JLabel cashLabel; // label that displays "Cash: "
-    private JLabel playerCash; // displays current player's cash on hand
-    private JButton playerMenuButton; // dislays the player menu on click
-    private JButton turnButton; // toggle player's turn (end turn or roll dice at start of turn)
-
-    /******************************************
-     * board location display variables
-     * ***************************************/
-    private int numActions; // number of possible player actions
-    private JLabel locationLabel; // name of the current player's location
-    private JButton[] actionButton; // array of possible user action buttons
+    private JPlayerMenuPanel playerMenuPanel; // panel that includes user option buttons
+    private JGameOptionsPanel gameOptionsPanel; // panel that includes game options buttons
+    private JPlayerInfoPanel playerInfoPanel; // panel that includes information about each player
+    private JBoardLocationPanel boardLocationPanel; // panel that includes board location info
+    private JPropertyInfoPanel propertyInfoPanel; // panel that includes information about properties
 
     @Override
     public void init()
     {
-        this.setupLayout();
+        this.setupMainWindow();
     }
 
-    private void setupLayout()
+    private void setupMainWindow()
     {
+        // Needed API calls
+        // Game game = new Game();
+        // Players[] players = game.getPlayers();
+        // Properties[] properties = game.getProperties();
+        // String[] actions = game.getPossibleActions();
+        // game.rollDice();
+        // int[] rollValues = game.getDiceValues();
+        // game.nextTurn();
+        // Player player = game.getPlayer();
+        // Property location = game.getLocation();
+        // Color locationColor = game.getLocationColor();
+        // game.leaveGame();
+        // game.endGame();
+        // game.restartGame();
+        // game.startDemo();
+        // game.improveProperty(Property property);
+        // game.performAction(String action);
+
+        String[][] playerArr = {{"Dog", "Cash: 1000", "Location: Boardwalk"},
+            {"Top Hat", "Cash: 500", "Location: St. Charles Place"}};
+        String[] actions = {"Buy", "Park for free"};
+        String location = "Boardwalk";
+
+
         setLayout(new BorderLayout()); 
 
-        // number of buttons to be displayed is dependent on the number of possible user actions
-        numActions = 2;
-
-        JPanel playerPanel = new JPanel(); // top player panel
-        JPanel boardLocationPanel = new JPanel(); // board location panel
-        JPanel cashPanel = new JPanel(); // panel to hold player cash amount
+        JPanel northPanel = new JPanel(); // main panel for north quadrant of app
         JPanel westPadding = new JPanel(); // panel for padding
         JPanel southPadding = new JPanel(); // panel for padding
         JPanel eastPadding = new JPanel(); // panel for padding
+        JPanel propertiesPanel = new JPanel(); // panel for holding properties
+        playerMenuPanel = new JPlayerMenuPanel();
+        gameOptionsPanel = new JGameOptionsPanel();
+        playerInfoPanel = new JPlayerInfoPanel(playerArr);
+        boardLocationPanel = new JBoardLocationPanel(location, Color.BLUE, actions);
 
-        playerPanel.setLayout(new GridLayout(2,4)); // create new layout for playerPanel
+
+        gameOptionsPanel.setLayout(new GridLayout(2,1)); // create 2x1 button
+        playerMenuPanel.setLayout(new GridLayout(1, 3)); // create new panel for player menu options
+        propertiesPanel.setLayout(new GridLayout(28,1)); // allow for 28 editable properties
+        northPanel.setLayout(new BorderLayout()); // create new borderlayout in north quad of app
         boardLocationPanel.setLayout(new GridLayout(10,4)); // create new layout for center location
-        cashPanel.setLayout(new FlowLayout(FlowLayout.LEADING)); // set cash panel to be left aligned
+        playerInfoPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        playerPanel.setBackground(Color.WHITE); // set background of player panel to white
-        cashPanel.setBackground(Color.WHITE); // set background of cash panel to white
+        //gameOptionsPanel.setBackground(Color.WHITE); // set background of player panel to white
+        playerInfoPanel.setBackground(Color.WHITE); // set background of players info panel to white
+        playerMenuPanel.setBackground(Color.WHITE); // set background of player menu panel to white
+        boardLocationPanel.setBackground(new Color(220, 255, 193)); // monopoly board color
+        propertiesPanel.setBackground(new Color(220, 255, 193));
 
-        playerLabel = new JLabel("Player 1"); // create new player label set to player token name
-        cashLabel = new JLabel("Cash:"); // create new label to be displayed next to playerCash
-        playerCash = new JLabel("1000"); // create new player cash label set to player cash amount
-        locationLabel = new JLabel("Boardwalk", JLabel.CENTER); // create new location label
+        //
+        // Create array of propertyInfoPanels HERE
+        //
+        int numProperties = 28;
+        JPropertyInfoPanel[] propertyInfoPanel = new JPropertyInfoPanel[numProperties];
 
-
-        playerMenuButton = new JButton("Properties Menu"); // create new properties button
-        turnButton = new JButton("End Turn"); // create turn button
-        actionButton = new JButton[numActions]; // create array of action buttons
-
-        // temp string array for display purposes TODO - remove this later
-        String[] actions = {"Buy", "Park for free"};
-
-        // display possible player actions in the form of buttons
-        for (int i=0; i<numActions; i++)
+        for (int i = 0; i < 1; i++)
         {
-            actionButton[i] = new JButton(actions[i]); // create new action button
-            actionButton[i].addActionListener(this); // add action listeners to each button
-            //actionButton[i].setActionCommand(Integer.toString(i));
+            propertyInfoPanel[i] = new JPropertyInfoPanel("Boardwalk", "Price: 200",
+                    "Improvements: 5", "Owner: Me", "Rent: 400", true);
+            propertyInfoPanel[i].setLayout(new GridLayout(1,7)); // occupies 1 row and 7 columns
+            propertyInfoPanel[i].setBackground(new Color(220, 255, 193)); // monopoly board color
+            propertiesPanel.add(propertyInfoPanel[i]);
         }
 
-        playerMenuButton.addActionListener(this);
-        turnButton.addActionListener(this);
+        //saved as an example for possible later use
+        //Font playerLabelFont = new Font("TimesRoman", Font.BOLD, 18);
+        //playerLabel.setFont(playerLabelFont);
 
-        locationLabel.setOpaque(true); // allow for label background coloring
-        locationLabel.setBackground(Color.BLUE); // set background of board location label
-        locationLabel.setForeground(Color.WHITE); // set font color of board location label
-        turnButton.setForeground(Color.RED); // set font color of turn button
-        boardLocationPanel.setBackground(new Color(220, 255, 193)); // monopoly board color
+        northPanel.add("Center", playerInfoPanel);
+        //northPanel.add("Center", gameOptionsPanel);
+        northPanel.add("South", playerMenuPanel);
 
-        Font playerLabelFont = new Font("TimesRoman", Font.BOLD, 18);
-        Font locationLabelFont = new Font("TimesRoman", Font.BOLD, 32);
+        add("North", northPanel);
+        add("West", boardLocationPanel);
+        //add("South", southPadding);
+        //add("East", eastPadding);
+        add("Center", propertiesPanel);
+    }
 
-        playerLabel.setFont(playerLabelFont);
-        locationLabel.setFont(locationLabelFont); // set locationLabel to custom font
-
-        cashPanel.add(cashLabel);
-        cashPanel.add(playerCash);
-        playerPanel.add(playerLabel);
-        playerPanel.add(playerMenuButton);
-        playerPanel.add(cashPanel);
-        playerPanel.add(turnButton);
-        boardLocationPanel.add(locationLabel);
-
-        for (int i=0; i<numActions; i++)
-        {
-            boardLocationPanel.add(actionButton[i]); // add possible action buttons to display
-        } 
-
-        add("North", playerPanel); // add player panel to north section of gui
-        add("Center", boardLocationPanel); // add boardLocation panel to center section of gui
-        add("West", westPadding);
-        add("South", southPadding);
-        add("East", eastPadding);
+    private void setupViewAllPropertiesWindow()
+    {
+        
     }
 
     @Override
@@ -118,31 +118,6 @@ public class MonopolyGUI extends JApplet implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getSource() == playerMenuButton)
-        {
-            JOptionPane.showMessageDialog(frame,
-                    "Eggs are not supposed to be green.",
-                    "A plain message",
-                    JOptionPane.PLAIN_MESSAGE);
-        }
-
-        if (e.getSource() == turnButton)
-        {
-            JOptionPane.showMessageDialog(frame,
-                    "Eggs are not supposed to be green.",
-                    "A plain message",
-                    JOptionPane.PLAIN_MESSAGE);
-            turnButton.setText("Roll die");
-        }
-
-        for (int i=0; i<numActions; i++)
-        {
-            if (e.getSource() == actionButton[i])
-            {
-                System.out.println("button " + i + " pressed");
-                //do something
-            }
-        }
 
     }
 }
