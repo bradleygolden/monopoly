@@ -33,12 +33,9 @@ public class MonopolyGUI extends JApplet implements ActionListener
         // int[] rollValues = game.getDiceValues();
         // game.nextTurn();
         // Player player = game.getPlayer();
-        // Property location = game.getLocation();
+        // Boardlocation location = game.getLocation();
         // Color locationColor = game.getLocationColor();
         // game.leaveGame();
-        // game.endGame();
-        // game.restartGame();
-        // game.startDemo();
         // game.improveProperty(Property property);
         // game.performAction(String action);
 
@@ -68,11 +65,30 @@ public class MonopolyGUI extends JApplet implements ActionListener
         boardLocationPanel.setLayout(new GridLayout(10,4)); // create new layout for center location
         playerInfoPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        //gameOptionsPanel.setBackground(Color.WHITE); // set background of player panel to white
+        // gameOptionsPanel.setBackground(Color.WHITE); // set background of player panel to white
         playerInfoPanel.setBackground(Color.WHITE); // set background of players info panel to white
         playerMenuPanel.setBackground(Color.WHITE); // set background of player menu panel to white
         boardLocationPanel.setBackground(new Color(220, 255, 193)); // monopoly board color
         propertiesPanel.setBackground(new Color(220, 255, 193));
+
+
+        //
+        // setup action listeners
+        //
+        // playerMenuPanel actionListeners
+        playerMenuPanel.turnButton.addActionListener(this);
+        playerMenuPanel.leaveGameButton.addActionListener(this);
+        playerMenuPanel.endGameButton.addActionListener(this);
+
+        //
+        // boardLocationPanel actionListeners
+        //
+        //iterate through each possible action button
+        for (int i = 0; i < boardLocationPanel.actionButton.length; i++)
+        {
+            // add action listener to each possible action button
+            boardLocationPanel.actionButton[i].addActionListener(this);
+        }
 
         //
         // Create array of propertyInfoPanels HERE
@@ -113,6 +129,24 @@ public class MonopolyGUI extends JApplet implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
+        //
+        // actions for playerMenuPanel
+        //
+        if (e.getSource() == playerMenuPanel.turnButton)
+            System.out.println("turnButton");
+        if (e.getSource() == playerMenuPanel.leaveGameButton)
+            System.out.println("leaveGameButton");
+        if (e.getSource() == playerMenuPanel.endGameButton)
+            System.out.println("endGameButton");
 
+        //
+        // actions for boardLocationPanel
+        //
+        for (int i = 0; i < boardLocationPanel.actionButton.length; i++)
+        {
+            if (e.getSource() == boardLocationPanel.actionButton[i]) 
+                System.out.println(boardLocationPanel.actionButton[i].getText());
+        }
+        
     }
 }
