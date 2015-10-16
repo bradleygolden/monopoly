@@ -9,9 +9,9 @@ import java.lang.String;
 
 public class Lot extends Property
 {
-    private static final String[] POSSIBLE_ACTIONS =  {"Purchase", "Park for free", 
-                                                       "Pay rent", "Purchase improvement", 
-                                                       "Sell improvement"}; // Actions List
+    private static final String[] POSSIBLE_ACTIONS =  {"Purchase", "Free Parking", 
+                                                       "Pay Rent", "Purchase Improvement", 
+                                                       "Sell Improvement"}; // Actions List
 
     private Color color;                 // The color of a given group of properties
     private int[] rent;                  // Rent Structure of a lot based on numImprovements
