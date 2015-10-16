@@ -104,11 +104,6 @@ public class MonopolyGUI extends JApplet implements ActionListener
         add("Center", propertiesPanel);
     }
 
-    private void setupViewAllPropertiesWindow()
-    {
-        
-    }
-
     @Override
     public void paint(Graphics g)
     {
