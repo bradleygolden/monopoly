@@ -4,35 +4,54 @@
 // Description:
 //
 
-public class CornerSquare extends BoardLocation
+public class CornerSquare 
 {
+    private int goAmount; // the pass go amount
 
-    // POST: a CornerSquare object is created
-    public CornerSquare()
-    {
-        super();
-    }
-
-    public CornerSquare(String name, int address)
-    // PRE: name and address are valid
+    public CornerSquare(String name, int address, int goAmount)
+    // PRE: name and address are valid, and goAmount >= 0
     //POST: CornerSquare will be made with the specified attributes
     {
         super(name, address);
+        this.goAmount = goAmount;
     }
 
-    // 
-    @Override
-    public String[] getPossibleActions(Player player)
+    // POST: sets goamount to goamount
+    public CornerSquare(int goAmount)
     {
-        //TODO - do this!
-        return new String[] {""};
+        super();
+        this.name = name;
+        this.address = address;
     }
 
-    // POST: FCTVAL = name and address
+    public int collectMoney()
+    {
+        if(isGo())
+        {
+            return goAmount;
+        }
+        return 0;
+    }
+
+    public boolean isGo()
+    {
+        return super.name.equals("Go");
+    }
+
+    public String[] getPossibleActions()
+    {
+        if(this.isGo()) // TODO
+        {
+            return new String[] {"Collect Money"};
+        }
+        return new String[] {"Free Parking"};
+    }
+
+    // POST: FCTVAL = go amount
     @Override
     public String toString() 
     {
-        return "Name: " + super.name + " " + 
-            "Address: " + super.address;
+        return "Pass go amount: " + goAmount;
     }
+
 }
