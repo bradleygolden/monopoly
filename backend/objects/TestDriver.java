@@ -25,6 +25,9 @@ public class TestDriver
         Color GREEN = Color.GREEN;
         Color BLUE = Color.BLUE;
 
+        Dice dice = new Dice();
+
+
         // All board locations are initialized in the order in which they are displayed on the Monopoly Board
         // starting from go.
 
@@ -100,25 +103,25 @@ public class TestDriver
             System.out.println(boardElem.toString());
         }
 
-        //System.out.println("----------------------------");
-        //System.out.println("        Player Tests        ");
-        //System.out.println("----------------------------");
+        System.out.println("----------------------------");
+        System.out.println("        Player Tests        ");
+        System.out.println("----------------------------");
 
-        //num = 8; // set number of players
+        num = 8; // set number of players
 
-        //Player[] players = new Player[num];
-        //players[0] = new Player(100000, TOKENS[0]);
-        //players[1] = new Player(100000, TOKENS[1]);
-        //players[2] = new Player(100000, TOKENS[2]);
-        //players[3] = new Player(100000, TOKENS[3]);
-        //players[4] = new Player(100000, TOKENS[4]);
-        //players[5] = new Player(100000, TOKENS[5]);
-        //players[6] = new Player(100000, TOKENS[6]); 
-        //players[7] = new Player(100000, TOKENS[7]); 
+        Player[] players = new Player[num];
+        players[0] = new Player(100000, TOKENS[0], board[0]);
+        players[1] = new Player(100000, TOKENS[1], board[0]);
+        players[2] = new Player(100000, TOKENS[2], board[0]);
+        players[3] = new Player(100000, TOKENS[3], board[0]);
+        players[4] = new Player(100000, TOKENS[4], board[0]);
+        players[5] = new Player(100000, TOKENS[5], board[0]);
+        players[6] = new Player(100000, TOKENS[6], board[0]);
+        players[7] = new Player(100000, TOKENS[7], board[0]);
 
-        //for (Player playerElem : players)
-        //{
-            ////System.out.println(playerElem.toString());
-        //}
+        for (Player playerElem : players)
+        {
+            System.out.println(playerElem.toString());
+        }
     }
 }

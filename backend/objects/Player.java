@@ -11,16 +11,6 @@ public class Player
     private String token;           // piece that represents player
     private Property[] properties;  // list of properties owned by the player
 
-    public static void main(String[] args) 
-    {
-        Player p = new Player(100, "Boot");
-        System.out.println(p.getMoney());
-        System.out.println(p.propertiesToString());
-        System.out.println(p.getBoardLocation());
-        System.out.println(p.getToken());
-        System.out.println(p.getProperties());
-    }
-
     public Player() 
     //POST:  a new player will be created with $0, starting at Go, no properties, token: shoe
     {
@@ -143,6 +133,10 @@ public class Player
     {
         String s = "Player \"" + token + "\" with $" + money + ", at " + location.toString();
         s += " owns: ";
+        if(properties == null) 
+        {
+            return s;
+        }
         for(Property p : properties) // adds up properties
         {
             s += p.toString() + "\n";

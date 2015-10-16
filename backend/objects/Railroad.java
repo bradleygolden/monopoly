@@ -52,36 +52,4 @@ public class Railroad extends Property
             return -1; // an error has occurred
         }
     }
-
-    /************************************
-     * Unit Testing
-    ************************************/
-    public static void main(String[] args)
-    {
-        // create railroad space
-        BoardLocation[] board = new BoardLocation[1];
-
-        // initalize with a railroad
-        board[0] = new Railroad("Reading Railroad", 5);
-
-        // print railroad details
-        System.out.println(board[0].toString());
-
-        // create mock player
-        Player player = new Player(300, "Boot");
-
-        // create mock owner
-        Player owner = new Player(500, "Thimble");
-
-        // have owner purchase that property
-        if(owner.addProperty((Property)board[0]))
-        {
-            System.out.println(owner.propertiesToString());
-            // player bought the property successfully
-        } 
-        else 
-        {
-           System.out.println("Error adding owner");
-        }
-    }
 }
