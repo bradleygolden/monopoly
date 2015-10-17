@@ -11,15 +11,15 @@ public class CornerSquare extends BoardLocation
     // POST: CornerSquare object created where goAmount is set to zero
     {
         super();                    // call super constructor
-        this.goAmount = 0;
+        this.goAmount = 200;
     }
 
-    public CornerSquare(String name, int address, int goAmount)
-    // PRE:  name and address are valid, and goAmount >= 0
+    public CornerSquare(String name, int address)
+    // PRE:  name and address are valid
     // POST: CornerSquare will be made with the specified attributes
     {
         super(name, address);
-        this.goAmount = goAmount;
+        this.goAmount = 200;
     }
 
     public CornerSquare(int goAmount)
