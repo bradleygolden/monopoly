@@ -34,6 +34,8 @@ public class TaxSquare extends BoardLocation
             return super.toString() + " Income Tax: $" + INCOMETAX;
     }
 
+    // MAKE FUNCTION CALL getTax() check if luxury or income
+
     public int getIncomeTax()
     // POST: FCTVAL == amount of money player must pay for landing on income tax
     {
