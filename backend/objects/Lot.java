@@ -74,7 +74,6 @@ public class Lot extends Property
         this.rent[5] = fiveImpr;
     }
 
-    // TODO: Add rent prices for each lot improvement
     public String toString()
     // POST: FCTVAL == string representation of this Lot
     {
@@ -84,11 +83,11 @@ public class Lot extends Property
                "Price: "   + this.price    + " " +            
                "Rent:"     + this.baseRent + " " +           
                "Improvement Cost: " + this.improvementCost + " " + 
-               "One House: " + this.rent[1] + " " + 
-               "Two Houses: " + this.rent[2] + " " + 
+               "One House: "    + this.rent[1] + " " + 
+               "Two Houses: "   + this.rent[2] + " " + 
                "Three Houses: " + this.rent[3] + " " + 
-               "Four Houses: " + this.rent[4] + " " + 
-               "Hotel: " + this.rent[5] + " " + 
+               "Four Houses: "  + this.rent[4] + " " + 
+               "Hotel: "        + this.rent[5] + " " + 
                "";
     }
 
@@ -100,66 +99,83 @@ public class Lot extends Property
     //}
 
     public void sellImprovement()
-        // POST: class member numImprovements is decreased by one if numImprovements
-        //       for this lot has not reached zero
+    // POST: class member numImprovements is decreased by one if numImprovements
+    //       for this lot has not reached zero
     {
         if(this.numImprovements > 0)   // cannot sell improvement if lot is not improved
             this.numImprovements--;
     }
 
     public void improve()
-        // POST: class member numImprovments is increased by one if max improvements
-        //       for this lot has not been reached
+    // POST: class member numImprovments is increased by one if max improvements
+    //       for this lot has not been reached
     {
         if(this.numImprovements <= 5)  // max number of improvements has not been reached
             this.numImprovements++;
     }
 
+    @Override
     public int getRent(Player player)
     // POST: FCTVAL == price of rent in dollars based on the numImprovements on lot
     {
-        return this.rent[this.numImprovements];
+        if(this.owner == null)           // no one owns this lot thus no rent is paid
+        {
+            return 0;
+        }
+        else if(this.owner == player)    // current player owns this lot
+        {
+            return 0;
+        }
+        else if(this.owner != player)    // current player does not own lot
+        {
+            return this.rent[this.numImprovements];
+        }
+        else                             // an error has occured
+        {
+            return -1;
+        }
     }
 
     public Color getColor()
-        // POST: FCTVAL == color of this lot
+    // POST: FCTVAL == color of this lot
     {
         return this.color;
     }
 
     public int getImprovementCost()
-        // POST: FCTVAL == improvementCost (ie. cost to improve lot) 
+    // POST: FCTVAL == improvementCost (ie. cost to improve lot) 
     {
         return this.improvementCost;
     }
 
     public int getNumImprovements()
-        // POST: FCTVAL == numImprovements on this lot
+    // POST: FCTVAL == numImprovements on this lot
     {
         return this.numImprovements;
     }
 
     public void setRent(int rent, int numImprovements)
-        // PRE:  rent >= 0 in dollars, and numImprovements >= 0 and < 6
-        // POST: class member rent array at index numImprovements is set to rent
+    // PRE:  rent >= 0 in dollars, and numImprovements >= 0 and < 6
+    // POST: class member rent array at index numImprovements is set to rent
     {
         this.rent[numImprovements] = rent;
     }
 
     public void setColor(Color color)
-        // PRE:  color is initialized
-        // POST: class member color is modified to color
+    // PRE:  color is initialized
+    // POST: class member color is modified to color
     {
         this.color = color;
     }
 
     public void setImprovementCost(int improvementCost)
-        // PRE:  improvementCost >= 0 in dollars
-        // POST: class member improvementCost is set to improvementCost
+    // PRE:  improvementCost >= 0 in dollars
+    // POST: class member improvementCost is set to improvementCost
     {
         this.improvementCost = improvementCost; 
     }
 
+    @Override
     public String[] getPossibleActions(Player player)
     // PRE:  player is initialized
     // POST: FCTVAL == string of possible player actions
