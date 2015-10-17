@@ -1,7 +1,6 @@
-// Programmer:  Chris Griffith
-// Section:     CS 342
-// Assignment:  Lab 4
-// Date:        September 21, 2015
+// Programmers: Stephen Selke, Bradley Golden, Chris Griffith
+// Assignment:  Project 2, Monopoly
+// Date:        October 6, 2015
 // Description: The method sets up the graphics object to draw a random
 //              side of a six sided die.
 
