@@ -46,7 +46,7 @@ public class CornerSquare extends BoardLocation
         return super.name.equals("Go");
     }
 
-    public String[] getPossibleActions()
+    public String[] getPossibleActions(Player player)
     // POST: FCTVAL == string array of possible player actions
     {
         if(this.isGo())        // Location is Go
