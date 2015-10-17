@@ -16,6 +16,7 @@ public abstract class Property extends BoardLocation
     //       baseRent is set to 0, price is set to 0, owner is set to null
     //       Subclasses will initialize these values as needed
     {
+        super();
         this.baseRent = 0;
         this.price = 0;
         this.owner = null;
@@ -28,7 +29,7 @@ public abstract class Property extends BoardLocation
     }
 
     public abstract int getRent(Player player);
-    // POST: FCTVAL = rent as an integer in dollar units for the current property
+    // POST: FCTVAL == rent as an integer in dollar units for the current property
 
     public int getBaseRent()
     // POST: FCTVAL == return baseRent value of property
