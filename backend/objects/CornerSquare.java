@@ -61,7 +61,7 @@ public class CornerSquare extends BoardLocation
     public String toString() 
     // POST: FCTVAL == string representation of a corner square
     {
-        return "Pass go amount: " + goAmount;
+        return super.toString() + "Pass go amount: " + goAmount;
     }
 
 }
