@@ -26,6 +26,9 @@ public abstract class Property extends BoardLocation
     // POST: A property object is created with name set to name and address set to address
     {
         super(name, address);
+        this.baseRent = 0;
+        this.price = 0;
+        this.owner = null;
     }
 
     public abstract int getRent(Player player);
