@@ -8,7 +8,7 @@ public class Railroad extends Property
     //private Property[] ownerProperties; // An array of properties owned by the player
 
     //private int numRailroadsOwned;      // The number of railroads owned 
-                                        //   by the current owner of this RR
+                                          //   by the current owner of this RR
     public Railroad()
     // POST: a railroad object is created with price = 200, baseRent = 25
     {   
