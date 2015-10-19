@@ -1,55 +1,85 @@
-// Programmers:  Stephen Selke, Bradley Golden, Chris Griffith
+// Programmers: Stephen Selke, Bradley Golden, Chris Griffith
 // Assignment:  Project 2, Monopoly
 // Date:        October 6, 2015
-// Description:
-//
+// Description: This class models a railroad in monopoly (ie. Reading Railroad, etc..)
 
 public class Railroad extends Property
 {
-    private int numRailroadsOwned; // The number of railroads owned by the current owner of this RR
-    private Property[] ownerProperties; // An array of properties owned by the player
+    //private Property[] ownerProperties; // An array of properties owned by the player
 
-    // POST: a railroad object is created with price = 200, baseRent = 25
+    //private int numRailroadsOwned;      // The number of railroads owned 
+                                          //   by the current owner of this RR
     public Railroad()
-    {
-        super.price = 200; // The cost of a railroad
-        super.baseRent = 25; // The baseRent without owning extra railroads
+    // POST: a railroad object is created with price = 200, baseRent = 25
+    {   
+        super(); 
+        super.price = 200;      // The cost of a railroad
+        super.baseRent = 25;    // The baseRent without owning extra railroads
     }
 
-    // PRE: name is the name of the railroad and address is the distance from GO
-    //      address = 5, 15, 25, or 35
-    // POST: a railroad object is created with name = name and address = address
     public Railroad(String name, int address)
+    // PRE:  name is the name of the railroad and address is the distance from GO
+    //       address = 5, 15, 25, or 35
+    // POST: a railroad object is created with name set to name, address set to 
+    //       address, price set to 200, and baseRent set to 25
     {
-        this();
-        super.name = name;
-        super.address = address;
+        super(name, address);
+        super.price = 200;     
+        super.baseRent = 25; 
     }
 
-    // POST: FCTVAL == return baseRent
-    //                 baseRent >= 0
     @Override
     public int getRent(Player player)
+    // PRE:  player is initialized
+    // POST: FCTVAL == rent dependent upon number of railroads owned by player
     {
-        // check if the current space is owned
-        if (this.owner == null)
+        if (this.owner == null)             // this RR is not owned
         {
-            return 0; // this space is not owned
+            return 0;                       
         }
-        // check if the current player is the owner
-        else if (player == this.owner)
+        else if (player == this.owner)      // rent is 0 if the current player owns the RR
         {
-            return 0; // rent is 0 if the current player is the owner
+            return 0;                       
         }
-        // player will need to charge rent
-        else if (player != this.owner)
+        else if (player != this.owner)      // player owes rent
         {
-            return super.baseRent; // TODO apply railroad algorithm here...
+            Property[] prop;
+            int count;
+
+            prop = this.owner.getProperties();
+            count = 0;
+
+            for(int i = 0; i < prop.length; i++)
+            {
+                if(prop[i].getName() == "Reading Railroad" ||         // count number of railroads
+                   prop[i].getName() == "Pennsylvania Railroad" ||    // owned by this player
+                   prop[i].getName() == "B. & O. Railroad" ||         
+                   prop[i].getName() == "Short Line")
+                {
+                    count++;
+                }
+            }
+   
+            if(count == 2)                    // this railroad owner owns 2 railroads
+            {
+                return super.baseRent * 2;
+            }
+            else if(count == 3)               // this railroad owner owns 3 railroads
+            {
+                return super.baseRent * 4;
+            }
+            else if(count == 4)               // this railroad owner owns all railroads
+            {
+                return super.baseRent * 8;
+            }
+            else                              // this is the only railroad owned
+            {
+                return super.baseRent;
+            }
         }
-        // a boundary case has not been account for
-        else
+        else                                // an error has occurred
         {
-            return -1; // an error has occurred
+            return -1; 
         }
     }
 }

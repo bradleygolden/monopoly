@@ -1,124 +1,128 @@
-// Programmers:  Stephen Selke, Bradley Golden, Chris Griffith
+// Programmers: Stephen Selke, Bradley Golden, Chris Griffith
 // Assignment:  Project 2, Monopoly
 // Date:        October 6, 2015
-// Description:
-//
+// Description: This class models a property in monopoly (ie. any lot, railroad, & utility) 
 
 public abstract class Property extends BoardLocation
 {
-    protected static final String[] POSSIBLE_ACTIONS =  {"Purchase", "Park for free", "Pay rent"};
-    protected Player owner; // The owner of the property
-    protected int price; // The purchase price of the property
-    protected int baseRent; // The cost of rent on a given space without improvements
+    protected static final String[] POSSIBLE_ACTIONS =  {"Purchase", "Free Parking", "Pay Rent"};
 
+    protected Player owner;         // The owner of the property
+    protected int price;            // The purchase price of the property
+    protected int baseRent;         // The cost of rent on a given space without improvements
+
+    public Property()
     // POST: A property object is created
     //       baseRent is set to 0, price is set to 0, owner is set to null
     //       Subclasses will initialize these values as needed
-    public Property()
     {
-        baseRent = 0;
-        price = 0;
-        owner = null;
+        super();
+        this.baseRent = 0;
+        this.price = 0;
+        this.owner = null;
     }
 
-    // POST: A property object is created with name set to name and address set to address
     public Property(String name, int address)
+    // POST: A property object is created with name set to name and address set to address
     {
         super(name, address);
+        this.baseRent = 0;
+        this.price = 0;
+        this.owner = null;
     }
 
-    // POST: FCTVAL = rent as an integer in dollar units for the current property
     public abstract int getRent(Player player);
+    // POST: FCTVAL == rent as an integer in dollar units for the current property
 
-    // POST: FCTVAL == return baseRent value property
     public int getBaseRent()
+    // POST: FCTVAL == return baseRent value of property
     {
         return this.baseRent;
     }
 
-    // PRE: baseRent >=0
-    //      this value should be the rent of a property without improvements
     public void setBaseRent(int baseRent)
+    // PRE:  baseRent >=0 dollars
+    // POST: this baseRent set to baseRent
     {
+        // this value is the rent of a property without improvements
         this.baseRent = baseRent;
     }
 
-    // POST: FCTVAL == price of a property as an integer value
     public int getPrice()
+    // POST: FCTVAL == price of a property
     {
         return this.price;
     }
 
-    // PRE: price >= 0
-    //      this value should be the price of the property
     public void setPrice(int price)
+    // PRE:  price >= 0 dollars
+    // POST: this property price set to price
     {
+        // this value is the price of the property
         this.price = price;
     }
 
-    // POST: FCTVAL == returns player object, this player is the owner of the current board location
-    //                 owner can be initialized or null (no owner of this board location)
     public Player getOwner()
+    // POST: FCTVAL == returns player object, this player is the owner of the current board 
+    //       location owner can be initialized or null (no owner of this board location)
     {
         return this.owner;
     }
 
-    // PRE: owner == null or owner = initialized Player object
     public void setOwner(Player owner)
+    // PRE:  owner == null or an initialized Player object
+    // POST: owner set to new owner
     {
         this.owner = owner;
     }
 
     public boolean buy(Player buyer)
+    // PRE:  buyer is initialized
+    // POST: FCTVAL == true if player can buy this property, otherwise false
     {
-        // check if buyer is the current owner of this property
-        if (buyer == this.owner)
+        if (buyer == this.owner)    // check if buyer is the current owner
         {
             return false;
         }
-        // check if the property is currently owned by another player
-        if (this.owner != null)
+        if (this.owner != null)     // check if the property is currently owned by another player
         {
             return false;
         }
-        // check if buyer has enough money to purchase the property
-        else if (buyer.getMoney() < this.price)
+        else if (buyer.getMoney() < this.price)  // buyer does not have enough money to purchase
         {
             return false;
         }
-        // check if buyer has enough money to purhcase
-        else if(buyer.getMoney() > this.price)
+        else if(buyer.getMoney() > this.price)   // buyer has enough money to purchase
         {
-            // charge buyer for property
-            if (buyer.removeMoney(this.price) == false)
+            if (buyer.removeMoney(this.price) == false)  // charge buyer for property
             {
                 return false;
             }
-            // add property to owner properties
-            if (buyer.addProperty(this) == false)
+            if (buyer.addProperty(this) == false)        // add property to new owner
             {
                 return false;
             }
-            // set the current propertie's owner instance to the buyer
+            
+            // set the current property owner instance to the buyer
             this.owner = buyer;
 
             return true;
         }
-        // an error has occured
-        else
+        else                                            // an error has occured
         {
             System.out.println("Error in Property.buy(). Please check your boundary cases");
             return false;
         }
     }
 
+    public String[] getPossibleActions(Player player)
     // PRE: player != null
     // POST: a string of possible player actions is returned
-    public String[] getPossibleActions(Player player)
     {
         String[] possibleActions;
-        // check if space is unowned and player has enough cash to purchase property
-        if (this.owner == null && player.getMoney() >= this.price)
+        
+        if (this.owner == null &&                      // check if space is unowned and player 
+            player.getMoney() >= this.price)           // has enough cash to purchase property
         {
             // player can either buy the property or park for free
             possibleActions = new String[2];
@@ -126,36 +130,34 @@ public abstract class Property extends BoardLocation
             possibleActions[1] = POSSIBLE_ACTIONS[1];
             return possibleActions;
         }
-        // check if space is unowned and player doesn't have enough cash to purchase property
-        else if (this.owner == null && player.getMoney() < this.price)
+        else if (this.owner == null &&                 // check if space is unowned and player
+                 player.getMoney() < this.price)       // doesn't have enough cash to purchase
         {
             // player can't do anything
             possibleActions = new String[1];
             possibleActions[0] = POSSIBLE_ACTIONS[1];
             return possibleActions;
         }
-        // check if the space is owned by someone other than the player
-        else if (this.owner != null && this.owner != player)
+        else if (this.owner != null &&                 // check if the space is owned by someone
+                 this.owner != player)                 // other than the player
         {
             // player must pay rent
             possibleActions = new String[1];
-            possibleActions[0] = POSSIBLE_ACTIONS[2]; // player pays rent
+            possibleActions[0] = POSSIBLE_ACTIONS[2];  // player pays rent
             return possibleActions;
         }
-        // check if the player is the owner of the space
-        else if (this.owner == player)
+        else if (this.owner == player)                 // check if the player is the owner
         {
             // player can park for free
             possibleActions = new String[1];
-            possibleActions[0] = POSSIBLE_ACTIONS[1]; // player can park for free
+            possibleActions[0] = POSSIBLE_ACTIONS[1];  // player can park for free
             return possibleActions;
         }
-        else
+        else                                           // an error occurred
         {
-            // a case hasn't been accounted for
             possibleActions = new String[1];
-            possibleActions[0] = "An error has occured in getPossibleActions. Boundary case not"
-                + "accounted for";
+            possibleActions[0] = "An error has occured in getPossibleActions. " 
+                                  + "Boundary case not accounted for";
             return possibleActions;
         }
     }

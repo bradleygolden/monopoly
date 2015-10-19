@@ -1,51 +1,48 @@
-// Programmers:  Stephen Selke, Bradley Golden, Chris Griffith
+// Programmers: Stephen Selke, Bradley Golden, Chris Griffith
 // Assignment:  Project 2, Monopoly
 // Date:        October 6, 2015
-// Description:
-//
+// Description: This class models any board location in the game monopoly 
 
 public abstract class BoardLocation 
 {
-    protected int address; // number of spaces from Go
-    protected String name; // name of current location
+    protected int address;      // number of spaces from Go
+    protected String name;      // name of current location
 
     public BoardLocation()
-    //POST: sets address and name to nothing
+    //POST: A BoardLocation is created with address 
+    //      set to zero and name set to empty
     {
-        address = 0;
-        name = "";
+        this.address = 0;
+        this.name = "";
     }
 
-    // POST: sets address to address, and the name
-    //       of the board location to name
     public BoardLocation(String name, int address)
+    // POST: A BoardLocation object is created where address is set to
+    //       address, and name of the board location set to name
     {
         this.name = name;
         this.address = address;
     }
 
-    // POST: FCTVAL = the distance from Go
     public int getAddress() 
+    // POST: FCTVAL == the board location address (ie. the distance from Go)
     {
         return address;
     }
 
-    // POST: FCTVAL = the name of this square
     public String getName() 
+    // POST: FCTVAL == the name of this board location
     {
         return name;
     }
 
-    //POST: return array of possible actions for player
     abstract String[] getPossibleActions(Player player);
+    //POST: return array of possible actions for player
 
-    // POST: FCTVAL = the name of the square and its
-    //       distance from Go
     @Override
     public String toString() 
+    // POST: FCTVAL == string representation of this board location
     {
-        return "Name: " + name + " " +
-            "Address: " + address;
+        return "Name: " + name + " Address: " + address;
     }
-
 }
