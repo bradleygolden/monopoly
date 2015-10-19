@@ -16,6 +16,8 @@ public class MonopolyGUI extends JApplet implements ActionListener
     private JBoardLocationPanel boardLocationPanel; // panel that includes board location info
     private JPropertyInfoPanel propertyInfoPanel; // panel that includes information about properties
 
+    private Game game; // game object that holds current game settings
+
     @Override
     public void init()
     {
@@ -38,7 +40,7 @@ public class MonopolyGUI extends JApplet implements ActionListener
         // game.leaveGame();
         // game.improveProperty(Property property);
         // game.performAction(String action);
-
+        //
         String[][] playerArr = {{"Dog", "Cash: 1000", "Location: Boardwalk"},
             {"Top Hat", "Cash: 500", "Location: St. Charles Place"}};
         String[] actions = {"Buy", "Park for free"};
@@ -72,7 +74,6 @@ public class MonopolyGUI extends JApplet implements ActionListener
         propertiesPanel.setBackground(new Color(220, 255, 193));
 
 
-<<<<<<< Updated upstream
         //
         // setup action listeners
         //
@@ -90,10 +91,6 @@ public class MonopolyGUI extends JApplet implements ActionListener
             // add action listener to each possible action button
             boardLocationPanel.actionButton[i].addActionListener(this);
         }
-=======
-        // setup action listeners
-        playerMenuPanel.turnButton.setForeground(Color.RED);
->>>>>>> Stashed changes
 
         //
         // Create array of propertyInfoPanels HERE
