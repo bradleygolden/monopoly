@@ -3,10 +3,13 @@
 // Date:        October 6, 2015
 // Description:
 //
+import java.util.Random;
 import java.awt.Color;
 
 public class Game
 {
+	public static final String[] TOKENS = {"Scottish Terrier", "Battleship", "Automobile", "Top Hat",
+        "Thimble", "Boot", "Wheelbarrow", "Cat"};
 	private final Color SADDLE_BROWN = new Color(150, 75, 0);
     private final Color SKY_BLUE = new Color(135, 206, 235);
     private final Color DARK_ORCHARD = new Color(153,50,204);
@@ -21,14 +24,32 @@ public class Game
 	private int currentPlayerIndex;  // index into player array for current player
 	private Dice dice;               // rollDie -> int
 	private int[] diceState;         // values of the two current dice rolled
+	private boolean moveMade;        // current player has made their move
+
+	public Game(String setting)
+	{
+		this();
+		if(setting.equals("demo"))
+		{
+			addPlayer(100, Game.TOKENS[0], getGo());
+    		addPlayer(1000, Game.TOKENS[1], getGo());
+    		addPlayer(10000, Game.TOKENS[2], getGo());
+    	
+    		players[0].addProperty((Property) board[5]);
+    		players[1].addProperty((Property) board[23]);
+    		players[2].addProperty((Property) board[21]);
+		}
+	}
+
 
 	public Game()
 	{
 		board = new BoardLocation[40];
 		players = null;
 		dice = new Dice();
-		currentPlayer = 0;
+		currentPlayerIndex = 0;
 		diceState = new int[] {0, 0};
+		moveMade = false;
 
 		// All board locations are initialized in the order in which they are displayed on the Monopoly Board
         // starting from go.
@@ -101,48 +122,106 @@ public class Game
 	{
 		Player current = players[currentPlayerIndex];
 		int roll = dice.rollDie();
-		BoardLocation newLocation = board[(roll + current.getBoardLocation.getAddress()) % 40];
-		current.setLocation(newLocation);
-		String[] moves = current.getPossibleActions();
+		BoardLocation newLocation = board[(roll + current.getBoardLocation().getAddress()) % 40];
+		current.moveTo(newLocation);
+		String[] moves = newLocation.getPossibleActions(current);
 
 		// do actions
 
-		// move to next player
-		currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+		
 	}
 
-	/*public boolean performAction(String action)
+	/*
+	public boolean performAction(String action)
 	{
-		Player currentPlayer = palyers[currentPlayerIndex];
+		Player currentPlayer = players[currentPlayerIndex];
 		BoardLocation currentLocation = players[currentPlayerIndex].getBoardLocation();
+
 		if(currentLocation instanceof Lot)
 		{
 			if(action.equals("Purchase Improvement"))
 			{
-				currentPlayer.removeMoney(currentLocation.getImprovementCost());
-			}
-			if(action.equals("Purchase"))
-			{
-				currentPlayer.removeMoney(currentLocation.getCost());
-				currentPlayer.addProperty((Property) currentLocation);
-				((Property) currentLocation).setOwner(currentPlayer);
-			}
-			if(action.equals("Pay Rent"))
-			{
-				currentPlayer.removeMoney(currentLocation.getRent());
-				currentLocation.getOwner().addMoney(currentLocation.getRent());
-			}
-			if(action.equals("Pay Rent"))
-			{
-				currentPlayer.removeMoney(currentLocation.getRent());
-				currentLocation.getOwner().addMoney(currentLocation.getRent());
+				currentPlayer.removeMoney(((Lot) currentLocation).getImprovementCost());
 			}
 		}
+
+		if(currentLocation instanceof Lot ||
+		   currentLocation instanceof Railroad ||
+		   currentLocation instanceof Utility)
+		{
+			if(action.equals("Purchase"))
+			{
+				currentPlayer.removeMoney(((Property) currentLocation).getCost());
+				currentPlayer.addProperty((Property) currentLocation);
+			}
+			if(action.equals("Pay Rent"))
+			{
+				currentPlayer.removeMoney(((Property) currentLocation).getRent());
+				((Property) currentLocation).getOwner().addMoney(((Property) currentLocation).getRent(currentPlayer));
+			}
+		}
+		if(currentLocation instanceof CornerSquare)
+		{
+			if(action.equals("Collect Money"))
+			{
+				currentPlayer.addMoney(((CornerSquare) currentLocation).collectMoney());
+			}
+		}
+		if(currentLocation instanceof CardSquare)
+		{
+			if(action.equals("Collect Money"))
+			{
+				int money = ((CardSquare) currentLocation).collectMoney();
+				if(money < 0)
+				{
+					currentPlayer.removeMoney(money * -1); // Tax square: getTax
+				}
+				else 
+				{
+					currentPlayer.addMoney(((CornerSquare) currentLocation).collectMoney());
+				}
+			}
+		}
+		if(currentLocation instanceof TaxSquare)
+		{
+			if(action.equals("Pay Tax"))
+			{
+				int money = ((TaxSquare) currentLocation).getTax();
+				currentPlayer.removeMoney(money); // Tax square: getTax
+			}
+		}
+		moveMade = true;
+		return true;
 	}*/
 
-	public boolean netTurn()
+	public void startGame()
 	{
-			
+		Random r = new Random(System.currentTimeMillis());
+		for(int i = 0; i < players.length * 2; i++)
+		{
+			int p1 = (int) (r.nextFloat() * players.length);
+			int p2 = (int) (r.nextFloat() * players.length);
+			Player tmp = players[p1];
+			players[p1] = players[p2];
+			players[p2] = tmp;
+		}
+	}
+
+	public boolean nextTurn()
+	{
+		if(moveMade)
+		{
+			// move to next player
+			currentPlayerIndex = (currentPlayerIndex + 1) % players.length;	
+			moveMade = false;
+			return true;
+		}
+		return false;
+	}
+
+	public void leaveGame()
+	{
+		// no cleanup needed
 	}
 
 	public Property[] getProperties() 
@@ -153,14 +232,14 @@ public class Game
 
 		for(int i = 0; i < 28; i++) 
 		{
-			properties[i] = board[indexArray[i]];
+			properties[i] = (Property) board[indexArray[i]];
 		}
 		return properties;
 	}
 
-	public String getPossibleActions()
+	public String[] getPossibleActions()
 	{
-		return players[currentPlayerIndex].getBoardLocation().getPossibleActions();
+		return players[currentPlayerIndex].getBoardLocation().getPossibleActions(players[currentPlayerIndex]);
 	}
 
 	public int[] rollDice() 
@@ -181,6 +260,31 @@ public class Game
 		return players;
 	}
 
+	public Player getPlayer()
+	{
+		return players[currentPlayerIndex];
+	}
+
+	public BoardLocation getLocation()
+	{
+		return players[currentPlayerIndex].getBoardLocation();
+	}
+
+	public BoardLocation getGo()
+	{
+		return board[0];
+	}
+
+	public BoardLocation[] getBoard()
+	{
+		return board;
+	}
+
+	public void improveProperty(Property p)
+	{
+
+	}
+
 	public void addPlayer(int money, String token, BoardLocation location) 
 	{
 		Player p = new Player(money, token, location);
@@ -190,17 +294,58 @@ public class Game
 			return;
 		}
 		
-		Player[] newPlayer = new Player[player.length + 1]; // new array
-        for(int i = 0; i < player.length; i++) // copy over old array
+		Player[] newPlayer = new Player[players.length + 1]; // new array
+        for(int i = 0; i < players.length; i++) // copy over old array
         {
-            newPlayer[i] = player[i];
+            newPlayer[i] = players[i];
         }
-        newPlayer[player.length] = p;
-        player = newPlayer;
+        newPlayer[players.length] = p;
+        players = newPlayer;
+	}
+
+	public void spacesToString()
+	{
+		for(BoardLocation b : board)
+		{
+			System.out.println(b.toString());
+		}
+	}
+
+	public void playersToString()
+	{
+		for(Player player : players)
+        {
+            System.out.println(player.toString());
+        }
+	}
+
+	public static void demo()
+	{
+		Game g = new Game();
+    	g.addPlayer(100, Game.TOKENS[0], g.getGo());
+    	g.addPlayer(1000, Game.TOKENS[1], g.getGo());
+    	g.addPlayer(10000, Game.TOKENS[2], g.getGo());
+
+    	BoardLocation[] board = g.getBoard();
+    	Player[] players = g.getPlayers();
+    	
+    	players[0].addProperty((Property) board[5]);
+    	players[1].addProperty((Property) board[23]);
+    	players[2].addProperty((Property) board[21]);
+
+    	g.spacesToString();
+
+    	System.out.println("----------------------------");
+        System.out.println("        Player Tests        ");
+        System.out.println("----------------------------");
+
+    	g.playersToString();
 	}
 
     public static void main(String[] args)
     {
+    	
+    	demo();
 
     }
 }
