@@ -3,10 +3,13 @@
 // Date:        October 6, 2015
 // Description:
 //
+import java.util.Random;
 import java.awt.Color;
 
 public class Game
 {
+	public static final String[] TOKENS = {"Scottish Terrier", "Battleship", "Automobile", "Top Hat",
+        "Thimble", "Boot", "Wheelbarrow", "Cat"};
 	private final Color SADDLE_BROWN = new Color(150, 75, 0);
     private final Color SKY_BLUE = new Color(135, 206, 235);
     private final Color DARK_ORCHARD = new Color(153,50,204);
@@ -21,14 +24,36 @@ public class Game
 	private int currentPlayerIndex;  // index into player array for current player
 	private Dice dice;               // rollDie -> int
 	private int[] diceState;         // values of the two current dice rolled
+	private boolean moveMade;        // current player has made their move
+
+	public Game(String setting)
+	// PRE: setting is either "normal" or "demo"
+	//POST: a new instance of the game will be made in demo mode
+	//      meaning three players, at different parts of the board
+	{
+		this();
+		if(setting.equals("demo"))
+		{
+			addPlayer(100, Game.TOKENS[0], getGo());
+    		addPlayer(1000, Game.TOKENS[1], getGo());
+    		addPlayer(10000, Game.TOKENS[2], getGo());
+    	
+    		players[0].addProperty((Property) board[5]);
+    		players[1].addProperty((Property) board[23]);
+    		players[2].addProperty((Property) board[21]);
+		}
+	}
+
 
 	public Game()
+	//POST: a new instance of the game will be made
 	{
 		board = new BoardLocation[40];
 		players = null;
 		dice = new Dice();
-		currentPlayer = 0;
+		currentPlayerIndex = 0;
 		diceState = new int[] {0, 0};
+		moveMade = false;
 
 		// All board locations are initialized in the order in which they are displayed on the Monopoly Board
         // starting from go.
@@ -98,54 +123,131 @@ public class Game
 	}
 
 	public void makeMove()
+	// PRE: the dice will be rolled and the current player
+	//      will be moved to the new space on the board
 	{
 		Player current = players[currentPlayerIndex];
-		int roll = dice.rollDie();
-		BoardLocation newLocation = board[(roll + current.getBoardLocation.getAddress()) % 40];
-		current.setLocation(newLocation);
-		String[] moves = current.getPossibleActions();
-
-		// do actions
-
-		// move to next player
-		currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+		int[] roll = rollDice();
+		int rollNumber = roll[0] + roll[1];
+		BoardLocation newLocation = board[(rollNumber + current.getBoardLocation().getAddress()) % 40];
+		current.moveTo(newLocation);
 	}
 
-	/*public boolean performAction(String action)
+	
+	public boolean performAction(String action)
+	// PRE: action is a valid action from getPossibleActions
+	//POST: the action will be performed and FUNCVAL == true
 	{
-		Player currentPlayer = palyers[currentPlayerIndex];
+		Player currentPlayer = players[currentPlayerIndex];
 		BoardLocation currentLocation = players[currentPlayerIndex].getBoardLocation();
+
 		if(currentLocation instanceof Lot)
 		{
 			if(action.equals("Purchase Improvement"))
 			{
-				currentPlayer.removeMoney(currentLocation.getImprovementCost());
-			}
-			if(action.equals("Purchase"))
-			{
-				currentPlayer.removeMoney(currentLocation.getCost());
-				currentPlayer.addProperty((Property) currentLocation);
-				((Property) currentLocation).setOwner(currentPlayer);
-			}
-			if(action.equals("Pay Rent"))
-			{
-				currentPlayer.removeMoney(currentLocation.getRent());
-				currentLocation.getOwner().addMoney(currentLocation.getRent());
-			}
-			if(action.equals("Pay Rent"))
-			{
-				currentPlayer.removeMoney(currentLocation.getRent());
-				currentLocation.getOwner().addMoney(currentLocation.getRent());
+				currentPlayer.removeMoney(((Lot) currentLocation).getImprovementCost());
 			}
 		}
-	}*/
 
-	public boolean netTurn()
+		if(currentLocation instanceof Lot ||
+		   currentLocation instanceof Railroad ||
+		   currentLocation instanceof Utility)
+		{
+			if(action.equals("Purchase"))
+			{
+				currentPlayer.removeMoney(((Property) currentLocation).getPrice());
+				currentPlayer.addProperty((Property) currentLocation);
+			}
+			if(action.equals("Pay Rent"))
+			{
+				currentPlayer.removeMoney(((Property) currentLocation).getRent(currentPlayer));
+				((Property) currentLocation).getOwner().addMoney(((Property) currentLocation).getRent(currentPlayer));
+			}
+		}
+		if(currentLocation instanceof CornerSquare)
+		{
+			if(action.equals("Collect Money"))
+			{
+				currentPlayer.addMoney(((CornerSquare) currentLocation).collectMoney());
+			}
+		}
+		if(currentLocation instanceof CardSquare)
+		{
+			if(action.equals("Collect Money"))
+			{
+				int money = ((CardSquare) currentLocation).drawChance();
+				if(money < 0)
+				{
+					currentPlayer.removeMoney(money * -1); // Tax square: getTax
+				}
+				else 
+				{
+					currentPlayer.addMoney(money);
+				}
+			}
+		}
+		if(currentLocation instanceof TaxSquare)
+		{
+			if(action.equals("Pay Tax"))
+			{
+				int money = ((TaxSquare) currentLocation).getTax();
+				currentPlayer.removeMoney(money); // Tax square: getTax
+			}
+		}
+		moveMade = true;
+		return true;
+	}
+
+	public void startGame()
+	//POST: the game will start by randomizing the order of the players
 	{
+		Random r = new Random(System.currentTimeMillis());
+		for(int i = 0; i < players.length * 2; i++)
+		{
+			int p1 = (int) (r.nextFloat() * players.length);
+			int p2 = (int) (r.nextFloat() * players.length);
+			Player tmp = players[p1];
+			players[p1] = players[p2];
+			players[p2] = tmp;
+		}
+	}
+
+	public Color getColor()
+	//POST: the color of the current space will be returned
+	//      or white will be returned if there is no current color
+	{
+		if(players[currentPlayerIndex].getBoardLocation() instanceof Lot)
+		{
+			return ((Lot) players[currentPlayerIndex].getBoardLocation()).getColor();
+		}
+		return Color.WHITE;
+	}
+
+	public boolean nextTurn()
+	//POST: the current player will advance to the next player unless
+	//      the current player got doubles, then they get to go again
+	{
+		if(moveMade)
+		{
+			// move to next player if current player does not have doubles
+			if(diceState[0] != diceState[1])
+			{
+				currentPlayerIndex = (currentPlayerIndex + 1) % players.length;	
+			}
 			
+			moveMade = false;
+			return true;
+		}
+		return false;
+	}
+
+	public void leaveGame()
+	{
+		// no cleanup needed
 	}
 
 	public Property[] getProperties() 
+	//POST: returns the array of 28 properties on the board
 	{
 		Property[] properties = new Property[28];
 		int[] indexArray = new int[] {1, 3, 5, 6, 8, 9, 11, 12, 13, 14, 15, 16, 
@@ -153,17 +255,20 @@ public class Game
 
 		for(int i = 0; i < 28; i++) 
 		{
-			properties[i] = board[indexArray[i]];
+			properties[i] = (Property) board[indexArray[i]];
 		}
 		return properties;
 	}
 
-	public String getPossibleActions()
+	public String[] getPossibleActions()
+	//POST: returns the array of possible actions for the current player
 	{
-		return players[currentPlayerIndex].getBoardLocation().getPossibleActions();
+		return players[currentPlayerIndex].getBoardLocation().getPossibleActions(players[currentPlayerIndex]);
 	}
 
 	public int[] rollDice() 
+	//POST: the result of the dice roll will be returned and stored 
+	//      so you can get it from getDiceValues() as well
 	{
 		diceState[0] = dice.rollDie();
 		diceState[1] = dice.rollDie();
@@ -172,16 +277,61 @@ public class Game
 	}
 
 	public int[] getDiceValues()
+	//POST: returns dice values
 	{
 		return diceState;
 	}
 
 	public Player[] getPlayers()
+	//POST: returns array of players
 	{
 		return players;
 	}
 
+	public Player getPlayer()
+	//POST: returns current player
+	{
+		return players[currentPlayerIndex];
+	}
+
+	public BoardLocation getLocation()
+	//POST: returns location of current player
+	{
+		return players[currentPlayerIndex].getBoardLocation();
+	}
+
+	public BoardLocation getGo()
+	//POST: returns the array location of the Go space
+	{
+		return board[0];
+	}
+
+	public BoardLocation[] getBoard()
+	//POST: returns the board array
+	{
+		return board;
+	}
+
+	public boolean improveProperty(Property p)
+	//PRE:  property is a vaild property
+	//POST: the property will be improved and the cost will be removed
+	//      from the current player
+	{
+		if(p instanceof Lot)
+		{
+			int cost = ((Lot) p).getImprovementCost();
+			players[currentPlayerIndex].removeMoney(cost);
+			((Lot) p).improve();
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	public void addPlayer(int money, String token, BoardLocation location) 
+	//PRE:  money >= 0, token is a valid token string, and location is a valid location
+	//POST: the player will be initialized and added to the list of players for the game
 	{
 		Player p = new Player(money, token, location);
 		if(players == null)
@@ -190,17 +340,72 @@ public class Game
 			return;
 		}
 		
-		Player[] newPlayer = new Player[player.length + 1]; // new array
-        for(int i = 0; i < player.length; i++) // copy over old array
+		Player[] newPlayer = new Player[players.length + 1]; // new array
+        for(int i = 0; i < players.length; i++) // copy over old array
         {
-            newPlayer[i] = player[i];
+            newPlayer[i] = players[i];
         }
-        newPlayer[player.length] = p;
-        player = newPlayer;
+        newPlayer[players.length] = p;
+        players = newPlayer;
+	}
+
+	public String spacesToString()
+	//POST: returns the board as a string
+	{
+		String s = "";
+		for(BoardLocation b : board)
+		{
+			s += b.toString();
+		}
+		return s;
+	}
+
+	public String playersToString()
+	//POST: returns the player list as a string
+	{
+		String s = "";
+		for(Player player : players)
+        {
+            s += player.toString();
+        }
+        return s;
+	}
+
+	public static void demo()
+	{
+		Game g = new Game("demo");
+    	g.startGame();
+
+    	g.spacesToString();
+    	System.out.println("----------------------------");
+        System.out.println("        Player Tests        ");
+        System.out.println("----------------------------");
+    	g.playersToString();
+
+    	g.makeMove();
+    	String[] arr = g.getPossibleActions();
+    	g.performAction(arr[0]);
+    	g.nextTurn();
+
+    	// next player
+    	g.makeMove();
+    	arr = g.getPossibleActions();
+    	g.performAction(arr[0]);
+    	g.nextTurn();
+
+    	// next player
+    	g.makeMove();
+    	arr = g.getPossibleActions();
+    	g.performAction(arr[0]);
+    	g.nextTurn();
+
+
 	}
 
     public static void main(String[] args)
     {
+    	
+    	demo();
 
     }
 }
