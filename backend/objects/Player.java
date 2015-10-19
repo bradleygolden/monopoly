@@ -92,7 +92,7 @@ public class Player
         }
         newPropertyArray[properties.length] = property;
         properties = newPropertyArray;
-        newPropertyArray[properties.length].setOwner(this);
+        newPropertyArray[properties.length-1].setOwner(this);
         return true;
     }
 
