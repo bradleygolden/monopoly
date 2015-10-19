@@ -300,6 +300,12 @@ public class Game
 		return players[currentPlayerIndex].getBoardLocation();
 	}
 
+	public String getLocationName()
+	//POST: FCTVAL == name of location the current player is on
+	{
+		return players[currentPlayerIndex].getBoardLocation().getName();
+	}
+
 	public BoardLocation getGo()
 	//POST: returns the array location of the Go space
 	{
