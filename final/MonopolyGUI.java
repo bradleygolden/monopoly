@@ -72,7 +72,6 @@ public class MonopolyGUI extends JApplet implements ActionListener
         propertiesPanel.setBackground(new Color(220, 255, 193));
 
 
-<<<<<<< Updated upstream
         //
         // setup action listeners
         //
@@ -90,10 +89,6 @@ public class MonopolyGUI extends JApplet implements ActionListener
             // add action listener to each possible action button
             boardLocationPanel.actionButton[i].addActionListener(this);
         }
-=======
-        // setup action listeners
-        playerMenuPanel.turnButton.setForeground(Color.RED);
->>>>>>> Stashed changes
 
         //
         // Create array of propertyInfoPanels HERE

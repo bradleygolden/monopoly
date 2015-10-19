@@ -1,10 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
-<<<<<<< Updated upstream
 import java.awt.event.*;
-=======
-import java.awt.event;
->>>>>>> Stashed changes
 
 public class JPlayerMenuPanel extends JPanel
 {
