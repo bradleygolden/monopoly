@@ -144,7 +144,8 @@ public class MonopolyGUI extends JApplet implements ActionListener
         //
         for (int i = 0; i < boardLocationPanel.actionButton.length; i++)
         {
-            if (e.getSource() == boardLocationPanel.actionButton[i]) 
+            // check if user clicked an action button
+            if (e.getSource() == boardLocationPanel.actionButton[i])
                 System.out.println(boardLocationPanel.actionButton[i].getText());
         }
         
