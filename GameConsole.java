@@ -39,12 +39,10 @@ public class GameConsole
             //System.out.println(diceValues[0] + " " + diceValues[1]);
         }
 
-        //System.out.println(game.getPlayer().toString());
-        //game.makeMove();
-        //game.nextTurn();
-        //System.out.println(game.getPlayer().toString());
-        //game.performAction("Purchase");
-        //System.out.println(game.getPlayer().toString());
+        System.out.println(game.getPlayer().toString());
+        game.makeMove();
+        game.nextTurn();
+        System.out.println(game.getPlayer().toString());
 
         System.out.println(game.getLocationName().toString());
         System.out.println(game.getColor());
