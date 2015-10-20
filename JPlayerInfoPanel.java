@@ -41,4 +41,16 @@ public class JPlayerInfoPanel extends JPanel
 
       return playerInfoString += "</html>";
   }
+
+  // PRE: players = array of player objects, player = player object
+  // POST: a new panel is created containing a string of the current players details
+  //       the current player is highlighted red
+  public void update(Player[] players, Player player)
+  {
+      this.removeAll(); // remove all current players on the board
+      playerInfoString = this.getPlayerInfoString(players, player);
+      playerInfoLabel = new JLabel(playerInfoString); // label contains player details
+      this.add(playerInfoLabel);
+  }
+
 }

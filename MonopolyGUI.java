@@ -24,7 +24,8 @@ public class MonopolyGUI extends JApplet implements ActionListener
     private Color locationColor; // color of the current players location
     private String[] actions; // possible actions the current player can make
     private String locationName; // the current location name of the player's location
-    private boolean rollDiceFlag; // displays whether the dice need to be rolled or not
+    private boolean hasMoved; //true if the player has moved, false if not 
+    private boolean disableActions; // true if the player has performed an action
 
     @Override
     public void init()
@@ -37,14 +38,13 @@ public class MonopolyGUI extends JApplet implements ActionListener
     private void startGame()
     {
         this.game = new Game(GAME_MODE); // set up game in predefined GAME_MODE
-        game.startGame(); // start the current game
+        this.game.startGame(); // start the current game
         this.players = game.getPlayers(); // initialize array of player objects
         this.currentPlayer = game.getPlayer(); // init the current player
         this.properties = game.getProperties(); // initialize array of property objects
         this.locationColor = game.getColor(); // initialize current location color
         this.locationName = game.getLocationName(); // init first player's location name
         this.actions = game.getPossibleActions(); // init possible actions on starting location
-        this.rollDiceFlag = true; // dice needs to be rolled
     }
 
     // POST: a gui interface is created to represent the current game state
@@ -113,6 +113,8 @@ public class MonopolyGUI extends JApplet implements ActionListener
             boardLocationPanel.actionButton[i].addActionListener(this);
         }
 
+        this.toggleActionButtons(false); // disable action buttons until player has moved
+
         //
         // Create array of propertyInfoPanels to display property info
         //
@@ -147,7 +149,6 @@ public class MonopolyGUI extends JApplet implements ActionListener
     private void updateWindow()
     {
         currentPlayer = game.getPlayer(); // update the currentPlayer
-        System.out.println(currentPlayer.toString()); //TODO - bug doesn't advance next player
         locationName = game.getLocationName(); // update the current location name
         locationColor = game.getColor(); // update the current location color
         actions = game.getPossibleActions(); // update the current possible actions for location
@@ -163,6 +164,20 @@ public class MonopolyGUI extends JApplet implements ActionListener
         {
             // add action listener to each possible action button
             boardLocationPanel.actionButton[i].addActionListener(this);
+        }
+
+        // update playerInfoPanel
+        playerInfoPanel.update(this.players, this.currentPlayer);
+    }
+
+    // POST: disable possibleAction buttons in boardLocationPanel
+    private void toggleActionButtons(boolean toggle)
+    {
+        // iterate through all action buttons
+        for (int i = 0; i < boardLocationPanel.actionButton.length; i++)
+        {
+            // disable each button
+            boardLocationPanel.actionButton[i].setEnabled(toggle);
         }
     }
 
@@ -180,19 +195,26 @@ public class MonopolyGUI extends JApplet implements ActionListener
         //
         if (e.getSource() == playerMenuPanel.turnButton)
         {
-            // player wants to roll the dice
-            if (playerMenuPanel.turnButton.getText().equals("Roll dice"))
+            // player wants to roll the dice, check if they've moved already
+            if (playerMenuPanel.turnButton.getText().equals("Roll dice") && hasMoved == false)
             {
                 game.makeMove(); // roll the dice for the current player
+                hasMoved = true; // set hasMove to true to indicate that the player has moved
+
                 // update board with new player info
                 this.updateWindow(); // update GUI
+
+                this.toggleActionButtons(true); //enable action buttons for use by player
+
                 playerMenuPanel.turnButton.setText("End turn"); // change text of button to End turn
             }
-            // player wants to end their turn
-            else if (playerMenuPanel.turnButton.getText().equals("End turn"))
+            // player wants to end their turn, check if they've moved yet
+            else if (playerMenuPanel.turnButton.getText().equals("End turn") && hasMoved == true)
             {
                 game.nextTurn(); // set up board for next turn
+                hasMoved = false; // set hasMoved flag to false for the next player
                 this.updateWindow(); // update GUI
+                this.toggleActionButtons(false); // disable action buttons
                 playerMenuPanel.turnButton.setText("Roll dice"); // change text of button to Roll dice
             }
         }
@@ -207,8 +229,10 @@ public class MonopolyGUI extends JApplet implements ActionListener
         {
             // TODO - dispay end game results
             // String[] results = game.status();
-            game = new Game(GAME_MODE); // init new game
-            playerMenuPanel.turnButton.setText("Roll dice");
+            // TODO - fix this
+            //game = new Game(GAME_MODE); // init new game
+            this.startGame(); // re-initlialize all game components
+            //playerMenuPanel.turnButton.setText("Roll dice");
             this.updateWindow(); // update window
         }
 
@@ -220,45 +244,20 @@ public class MonopolyGUI extends JApplet implements ActionListener
             // check if user clicked an action button
             if (e.getSource() == boardLocationPanel.actionButton[i])
             {
-                // check which action button type was clicked on
-                // Purchase button clicked
-                if (boardLocationPanel.actionButton[i].getText().equals("Purchase"))
+                if (hasMoved) // check that player has moved first
                 {
-                    // do purchase
-                    System.out.println(boardLocationPanel.actionButton[i].getText());
-                }
-                // Park for free button clicked
-                else if (boardLocationPanel.actionButton[i].getText().equals("Park for free"))
-                {
-                    // do park for free
-                    System.out.println(boardLocationPanel.actionButton[i].getText());
-                }
-                // Collect Money button clicked
-                else if (boardLocationPanel.actionButton[i].getText().equals("Collect Money"))
-                {
-                    // do collect money
-                    System.out.println(boardLocationPanel.actionButton[i].getText());
-                }
-                // Free Parking button clicked
-                else if (boardLocationPanel.actionButton[i].getText().equals("Free Parking"))
-                {
-                    // do free parking
-                    System.out.println(boardLocationPanel.actionButton[i].getText());
-                }
-                // Pay Tax button clicked
-                else if (boardLocationPanel.actionButton[i].getText().equals("Pay Tax"))
-                {
-                    // do pay tax
-                    System.out.println(boardLocationPanel.actionButton[i].getText());
-                }
-                // Pay rent button clicked
-                else if (boardLocationPanel.actionButton[i].getText().equals("Pay rent"))
-                {
-                    // do pay rent
-                    System.out.println(boardLocationPanel.actionButton[i].getText());
+                    // attempt to perform a possible action
+                    if(game.performAction(boardLocationPanel.actionButton[i].getText()))
+                    {
+                        this.toggleActionButtons(false);
+                    }
+                    else
+                    {
+                        System.out.println("Action: " + boardLocationPanel.actionButton[i].getText()
+                                + " failed.");
+                    }
                 }
             }
         }
-        
     }
 }
