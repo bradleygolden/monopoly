@@ -23,7 +23,7 @@ public class Dice
     public int rollDie()
     // POST: FCTVAL == random diceValue (ie. random side of the die) 
     {
-        diceValue = (int) ((Math.random() * 7) + 1);  // Random value from 1 to 6
+        diceValue = (int) Math.round((Math.random() * 5) + 1);  // Random value from 1 to 6
     
         return diceValue;
     }

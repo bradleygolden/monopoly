@@ -127,6 +127,11 @@ public class Player
         }
     }
 
+    public String simpleToString()
+    {
+        return "Player \"" + token + "\" with $" + money + ", at " + location.toString();
+    }
+
     @Override
     public String toString() 
     //POST: will return string represnetation of player

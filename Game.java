@@ -172,8 +172,16 @@ public class Game
 			}
 			if(action.equals("Pay Rent"))
 			{
-				currentPlayer.removeMoney(((Property) currentLocation).getRent(currentPlayer));
-				((Property) currentLocation).getOwner().addMoney(((Property) currentLocation).getRent(currentPlayer));
+				if(currentLocation instanceof Utility)
+				{
+					currentPlayer.removeMoney(((Property) currentLocation).getRent(currentPlayer, diceState[0] + diceState[1]));
+					((Property) currentLocation).getOwner().addMoney(((Property) currentLocation).getRent(currentPlayer, diceState[0] + diceState[1]));
+				}
+				else
+				{
+					currentPlayer.removeMoney(((Property) currentLocation).getRent(currentPlayer));
+					((Property) currentLocation).getOwner().addMoney(((Property) currentLocation).getRent(currentPlayer));
+				}
 			}
 		}
 		if(currentLocation instanceof CornerSquare)
