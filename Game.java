@@ -28,19 +28,31 @@ public class Game
 
 	public Game(String setting)
 	// PRE: setting is either "normal" or "demo"
-	//POST: a new instance of the game will be made in demo mode
-	//      meaning three players, at different parts of the board
+	//POST: a new instance of the game will be made in either demo mode
+	//      or normal meaning three players, at different parts of the board
 	{
 		this();
 		if(setting.equals("demo"))
 		{
-			addPlayer(100, Game.TOKENS[0], getGo());
-    		addPlayer(1000, Game.TOKENS[1], getGo());
-    		addPlayer(10000, Game.TOKENS[2], getGo());
+			addPlayer(100, Game.TOKENS[0], board[12]);
+    		addPlayer(1000, Game.TOKENS[1], board[4]);
+    		addPlayer(10000, Game.TOKENS[2], board[15]);
     	
     		players[0].addProperty((Property) board[5]);
     		players[1].addProperty((Property) board[23]);
     		players[2].addProperty((Property) board[21]);
+		}
+		else if(setting.equals("normal"))
+		{
+			// by default 8 players are added
+			addPlayer(1000, Game.TOKENS[0], board[0]);
+    		addPlayer(1000, Game.TOKENS[1], board[0]);
+    		addPlayer(1000, Game.TOKENS[2], board[0]);	
+    		addPlayer(1000, Game.TOKENS[3], board[0]);
+    		addPlayer(1000, Game.TOKENS[4], board[0]);
+    		addPlayer(1000, Game.TOKENS[5], board[0]);
+    		addPlayer(1000, Game.TOKENS[6], board[0]);
+    		addPlayer(1000, Game.TOKENS[7], board[0]);
 		}
 	}
 
@@ -242,8 +254,21 @@ public class Game
 	}
 
 	public void leaveGame()
+	//POST: removes current player from game
 	{
-		// no cleanup needed
+		int nextPlayer = currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+		Player[] newPlayers = new Player[players.length - 1];
+		players[currentPlayerIndex] = null;
+		for(int i = 0, j = 0; i < players.length; i++)
+		{
+			if(players[i] != null)
+			{
+				newPlayers[j] = players[i];
+				j++;
+			}
+		}
+		players = newPlayers;
+		currentPlayerIndex = nextPlayer % players.length; // fix loop around in case out of bounds
 	}
 
 	public Property[] getProperties() 
@@ -298,12 +323,6 @@ public class Game
 	//POST: returns location of current player
 	{
 		return players[currentPlayerIndex].getBoardLocation();
-	}
-	
-    public String getLocationName()
-	//POST: FCTVAL == name of location the current player is at
-	{
-		return players[currentPlayerIndex].getBoardLocation().getName();
 	}
 
 	public BoardLocation getGo()
@@ -375,6 +394,18 @@ public class Game
             s += player.toString();
         }
         return s;
+	}
+
+	@Override
+	public String toString()
+	//POST: returns toStrings of the players
+	{
+		String s = "";
+		for(Player p : players)
+		{
+			s += p.toString() + "\n";
+		}
+		return s;
 	}
 
 	public static void demo()
