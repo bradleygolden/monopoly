@@ -144,7 +144,7 @@ public class MonopolyGUI extends JApplet implements ActionListener
     
     // PRE: to be used immediately after Game.newTurn() has been called
     // POST: updates the board after Game.newTurn() is called
-    private void updateBoard()
+    private void updateWindow()
     {
         currentPlayer = game.getPlayer(); // update the currentPlayer
         System.out.println(currentPlayer.toString()); //TODO - bug doesn't advance next player
@@ -185,23 +185,31 @@ public class MonopolyGUI extends JApplet implements ActionListener
             {
                 game.makeMove(); // roll the dice for the current player
                 // update board with new player info
-                this.updateBoard(); // update GUI
+                this.updateWindow(); // update GUI
                 playerMenuPanel.turnButton.setText("End turn"); // change text of button to End turn
             }
             // player wants to end their turn
             else if (playerMenuPanel.turnButton.getText().equals("End turn"))
             {
                 game.nextTurn(); // set up board for next turn
-                this.updateBoard(); // update GUI
+                this.updateWindow(); // update GUI
                 playerMenuPanel.turnButton.setText("Roll dice"); // change text of button to Roll dice
             }
         }
 
         if (e.getSource() == playerMenuPanel.leaveGameButton)
+        {
             System.out.println("leaveGameButton");
+        }
+
+        // check if user wants to end the game
         if (e.getSource() == playerMenuPanel.endGameButton)
         {
-            //game = new Game(GAME_MODE);
+            // TODO - dispay end game results
+            // String[] results = game.status();
+            game = new Game(GAME_MODE); // init new game
+            playerMenuPanel.turnButton.setText("Roll dice");
+            this.updateWindow(); // update window
         }
 
         //
@@ -211,7 +219,45 @@ public class MonopolyGUI extends JApplet implements ActionListener
         {
             // check if user clicked an action button
             if (e.getSource() == boardLocationPanel.actionButton[i])
-                System.out.println(boardLocationPanel.actionButton[i].getText());
+            {
+                // check which action button type was clicked on
+                // Purchase button clicked
+                if (boardLocationPanel.actionButton[i].getText().equals("Purchase"))
+                {
+                    // do purchase
+                    System.out.println(boardLocationPanel.actionButton[i].getText());
+                }
+                // Park for free button clicked
+                else if (boardLocationPanel.actionButton[i].getText().equals("Park for free"))
+                {
+                    // do park for free
+                    System.out.println(boardLocationPanel.actionButton[i].getText());
+                }
+                // Collect Money button clicked
+                else if (boardLocationPanel.actionButton[i].getText().equals("Collect Money"))
+                {
+                    // do collect money
+                    System.out.println(boardLocationPanel.actionButton[i].getText());
+                }
+                // Free Parking button clicked
+                else if (boardLocationPanel.actionButton[i].getText().equals("Free Parking"))
+                {
+                    // do free parking
+                    System.out.println(boardLocationPanel.actionButton[i].getText());
+                }
+                // Pay Tax button clicked
+                else if (boardLocationPanel.actionButton[i].getText().equals("Pay Tax"))
+                {
+                    // do pay tax
+                    System.out.println(boardLocationPanel.actionButton[i].getText());
+                }
+                // Pay rent button clicked
+                else if (boardLocationPanel.actionButton[i].getText().equals("Pay rent"))
+                {
+                    // do pay rent
+                    System.out.println(boardLocationPanel.actionButton[i].getText());
+                }
+            }
         }
         
     }
