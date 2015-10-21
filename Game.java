@@ -258,7 +258,7 @@ public class Game
 	{
 		if(players.length == 2) 
 		{
-			return "You cannot play Monopoly with less than too players... Duhh.";
+			return "You cannot play Monopoly with less than two players... Duhh.";
 		}
 		String name = players[currentPlayerIndex].getToken();
 		int nextPlayer = (currentPlayerIndex + 1) % players.length;
