@@ -71,14 +71,14 @@ public class Game
 		else if(setting.equals("normal"))
 		{
 			// by default 8 players are added
-			addPlayer(1000, Game.TOKENS[0], board[0]);
-    		addPlayer(1000, Game.TOKENS[1], board[0]);
-    		addPlayer(1000, Game.TOKENS[2], board[0]);	
-    		addPlayer(1000, Game.TOKENS[3], board[0]);
-    		addPlayer(1000, Game.TOKENS[4], board[0]);
-    		addPlayer(1000, Game.TOKENS[5], board[0]);
-    		addPlayer(1000, Game.TOKENS[6], board[0]);
-    		addPlayer(1000, Game.TOKENS[7], board[0]);
+			addPlayer(1500, Game.TOKENS[0], board[0]);
+    		addPlayer(1500, Game.TOKENS[1], board[0]);
+    		addPlayer(1500, Game.TOKENS[2], board[0]);	
+    		addPlayer(1500, Game.TOKENS[3], board[0]);
+    		addPlayer(1500, Game.TOKENS[4], board[0]);
+    		addPlayer(1500, Game.TOKENS[5], board[0]);
+    		addPlayer(1500, Game.TOKENS[6], board[0]);
+    		addPlayer(1500, Game.TOKENS[7], board[0]);
 		}
 	}
 
@@ -169,6 +169,10 @@ public class Game
 		int[] roll = rollDice();
 		int rollNumber = roll[0] + roll[1];
 		BoardLocation newLocation = board[(rollNumber + current.getBoardLocation().getAddress()) % 40];
+		if(newLocation.getAddress() < current.getBoardLocation().getAddress()) // the passed go
+		{
+			current.addMoney(200);
+		}
 		current.moveTo(newLocation);
 		return true;
 	}
