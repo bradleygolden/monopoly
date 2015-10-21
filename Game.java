@@ -240,7 +240,7 @@ public class Game
 				if(currentPlayer.getMoney() >= cost)
 				{
 					currentPlayer.removeMoney(cost);
-					BoardLocation newLocation = board[(currentPlayer.getBoardLocation() + 1) % 40];
+					BoardLocation newLocation = board[(currentPlayer.getBoardLocation().getAddress() + 1) % 40];
 					currentPlayer.moveTo(newLocation);
 				}
 			}
