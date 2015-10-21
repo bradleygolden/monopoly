@@ -36,6 +36,8 @@ public class Game
 		{
 			addPlayer(100, Game.TOKENS[0], board[12]);
     		addPlayer(1000, Game.TOKENS[1], board[4]);
+
+    		addPlayer(149, Game.TOKENS[1], board[10]);
     	
     		players[0].addProperty((Property) board[1]);
     		((Lot) board[1]).improve();
