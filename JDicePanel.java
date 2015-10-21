@@ -13,6 +13,7 @@ public class JDicePanel extends JPanel
     public JDicePanel()
     {
         super();
+        setMinimumSize(new Dimension(200, 100));
     }
 
 
