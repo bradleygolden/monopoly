@@ -269,7 +269,7 @@ public class Game
 			}
 		}
 		players = newPlayers;
-		currentPlayerIndex = nextPlayer % players.length; // fix loop around in case out of bounds
+		currentPlayerIndex = (nextPlayer - 1) % players.length; // fix loop around in case out of bounds
 		return name;
 	}
 
