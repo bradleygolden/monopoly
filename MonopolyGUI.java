@@ -189,6 +189,31 @@ public class MonopolyGUI extends JApplet implements ActionListener
             // add action listener to improve button
             propertyInfoPanel[i].improve.addActionListener(this);
         }
+
+        // if player hasn't moved, allow user to click roll dice button
+        // don't allow player to click perform action buttons
+        if (!hasMoved)
+        {
+            playerMenuPanel.turnButton.setEnabled(true);
+            playerMenuPanel.turnButton.setText("Roll dice");
+            this.toggleActionButtons(false);
+        }
+        // if player moved and hasn't performed an action, don't allow to click next turn button
+        // allow player to click perform action buttons
+        else if (hasMoved && !performedAction)
+        {
+            playerMenuPanel.turnButton.setEnabled(false);
+            playerMenuPanel.turnButton.setText("End turn");
+            this.toggleActionButtons(true);
+        }
+        // if player hasMoved and has performedAction allow user to end their turn
+        // also ensure they can't perform additional actions
+        else if (hasMoved && performedAction)
+        {
+            playerMenuPanel.turnButton.setEnabled(true);
+            this.toggleActionButtons(false);
+        }
+
         this.repaint();
     }
 
@@ -218,35 +243,38 @@ public class MonopolyGUI extends JApplet implements ActionListener
         if (e.getSource() == playerMenuPanel.turnButton)
         {
             // player wants to roll the dice, check if they've moved already
-            if (playerMenuPanel.turnButton.getText().equals("Roll dice") && hasMoved == false)
+            if (hasMoved == false)
             {
                 game.makeMove(); // roll the dice for the current player
-                this.toggleActionButtons(true); //enable action buttons for use by player
                 hasMoved = true; // set hasMove to true to indicate that the player has moved
-                
-                // update board with new player info
                 this.updateWindow(); // update GUI
-
-                playerMenuPanel.turnButton.setEnabled(false); // disable until user performs an action
-                playerMenuPanel.turnButton.setText("End turn"); // change text of button to End turn
             }
             // player wants to end their turn, check if they've moved yet and peformed an action
-            else if (playerMenuPanel.turnButton.getText().equals("End turn") && hasMoved == true
-                    && performedAction == true)
+            else if (hasMoved == true && performedAction == true)
             {
-                game.nextTurn(); // set up board for next turn
-                hasMoved = false; // set hasMoved flag to false for the next player
-                performedAction = false; // set performedAction to false for the next player
-                playerMenuPanel.turnButton.setText("Roll dice"); // change text of button to Roll dice
-                //this.toggleActionButtons(false); // disable action buttons
-                this.updateWindow(); // update GUI
-                this.toggleActionButtons(false); //disable action buttons
+                if(!game.nextTurn()) // set up board for next turn
+                {
+                    System.out.println("Error, nextTurn not successful.");
+                    return;
+                }
+                else
+                {
+                    hasMoved = false; // set hasMoved flag to false for the next player
+                    performedAction = false; // set performedAction to false for the next player
+                    this.updateWindow(); // update GUI
+                }
+            }
+            else
+            {
+                // can't end their turn yet
             }
         }
 
         if (e.getSource() == playerMenuPanel.leaveGameButton)
         {
             // TODO - test this functionality
+            // TODO - check player name upon leaving game, did the current player
+            // leave the game or did another player leave by accident?
             game.leaveGame(); // remove the current player from the game
             hasMoved = false; // reset hasMoved
             performedAction = false; // reset actionPerformed
@@ -278,9 +306,7 @@ public class MonopolyGUI extends JApplet implements ActionListener
                     if(game.performAction(boardLocationPanel.actionButton[i].getText()))
                     {
                         performedAction = true; // user performed an action, set the flag
-                        this.updatePlayerInfoPanel(); // dynamically update player info panel
-                        playerMenuPanel.turnButton.setEnabled(true); // enable button after action
-                        this.toggleActionButtons(false); // disable action buttons
+                        this.updateWindow();
                     }
                     else
                     {
