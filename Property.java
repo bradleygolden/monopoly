@@ -33,7 +33,10 @@ public abstract class Property extends BoardLocation
 
     public abstract int getRent(Player player);
     // POST: FCTVAL == rent as an integer in dollar units for the current property
-    
+   
+    public abstract String simpleToString();
+    // POST: FCTVAL == simple string representation of all properties
+        
     public abstract int getRent(Player player, int diceValues);
     // POST: FCTVAL == rent as an integer in dollar units for the current property
 
