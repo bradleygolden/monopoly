@@ -414,7 +414,7 @@ public class Game
 			int cost = ((Lot) p).getImprovementCost() / 2;
 			if(((Lot) p).sellImprovement())
 			{
-				currentPlayer.addMoney(cost);
+				players[currentPlayerIndex].addMoney(cost);
 				return true;
 			}
 			else
