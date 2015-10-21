@@ -411,7 +411,16 @@ public class Game
 	{
 		if(p instanceof Lot)
 		{
-			return ((Lot) p).sellImprovement();
+			int cost = ((Lot) p).getImprovementCost() / 2;
+			if(((Lot) p).sellImprovement())
+			{
+				currentPlayer.addMoney(cost);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{
