@@ -29,7 +29,7 @@ public class JPropertyInfoPanel extends JPanel
         this.removeAll(); // clear this panel
 
         improve = new JButton("Improve"); // initialize new improve button
-        propertyInfo = new JLabel(property.toString()); // get property info
+        propertyInfo = new JLabel(property.simpleToString()); // get property info
         this.add(propertyInfo); // add property label to this panel
 
         if (playerProperties == null)

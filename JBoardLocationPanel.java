@@ -24,6 +24,7 @@ public class JBoardLocationPanel extends JPanel
             String[] possibleUserActions)
     {
         this();
+        boardLocationLabel = new JLabel(boardLocation, JLabel.CENTER); // center label
         this.update(boardLocation, color, possibleUserActions);
     }
 
@@ -31,8 +32,19 @@ public class JBoardLocationPanel extends JPanel
     // this method is used to not only initialize this panel but to update it as well
     public void update(String boardLocation, Color color, String[] possibleUserActions)
     {
-        this.removeAll(); // remove all current compenents in the panel
-        boardLocationLabel = new JLabel(boardLocation, JLabel.CENTER); // center label
+        //this.removeAll();
+
+        // remove all old actionButtons prior to adding new ones
+        if (actionButton != null)
+        {
+            for (int i = 0; i < actionButton.length; i++)
+            {
+                this.remove(actionButton[i]);
+            }
+        }
+
+        // update the label
+        boardLocationLabel.setText(boardLocation);
         numActions = possibleUserActions.length; // get number of possible actions
 
         // initialize array of buttons
