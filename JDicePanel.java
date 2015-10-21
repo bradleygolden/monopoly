@@ -5,6 +5,7 @@
 //
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.*;
 
 public class JDicePanel extends JPanel
@@ -21,6 +22,7 @@ public class JDicePanel extends JPanel
     {
         Graphics g = getGraphics();
         int padding = 6;
+        g.clearRect(0, 0, getWidth(), getHeight());
         drawOne(g, padding, padding, (getWidth() / 2) - (2*padding), a, Color.BLACK);
         drawOne(g, padding + (getWidth() / 2), padding, (getWidth() / 2) - (2*padding), b, Color.BLACK);
     }
