@@ -351,16 +351,25 @@ public class Game
 		if(p instanceof Lot)
 		{
 			int cost = ((Lot) p).getImprovementCost();
-			if(players[currentPlayerIndex].getMoney() >= cost) {
-				players[currentPlayerIndex].removeMoney(cost);
-				((Lot) p).improve();
-				return true;
+			if(players[currentPlayerIndex].getMoney() >= cost) 
+			{
+				if(((Lot) p).improve()) 
+				{
+					players[currentPlayerIndex].removeMoney(cost);
+					return true;
+				}
+				else 
+				{
+					return false;
+				}
 			}
-			else {
+			else 
+			{
 				return false;
 			}
 		}
-		else {
+		else 
+		{
 			return false;
 		}
 	}
