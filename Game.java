@@ -407,6 +407,18 @@ public class Game
 		return board;
 	}
 
+	public boolean sellImprovement(Property p)
+	{
+		if(p instanceof Lot)
+		{
+			return ((Lot) p).sellImprovement();
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	public boolean improveProperty(Property p)
 	//PRE:  property is a vaild property
 	//POST: the property will be improved and the cost will be removed

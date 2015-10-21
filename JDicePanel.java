@@ -91,6 +91,19 @@ public class JDicePanel extends JPanel
     public void paint(Graphics g)
     {
         super.paint(g);
-        
+        System.out.println(getWidth());
+        g.setColor(Color.RED);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        drawDice(1, 1);
+    }
+
+    public static void main(String[] args)
+    {
+        JFrame f = new JFrame();
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.add(new JDicePanel());
+        f.show();
+        f.pack();
+        f.setVisible(true);
     }
 }
