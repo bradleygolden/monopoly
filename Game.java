@@ -116,7 +116,7 @@ public class Game
         board[8] = new Lot("Vermont Avenue", 8, SKY_BLUE, 100 , 6, 50, 30, 90, 270, 400, 550);
         board[9] = new Lot("Connecticut Avenue", 9, SKY_BLUE, 120, 8, 50, 40, 100, 300, 450, 600);
 
-        board[10] = new CornerSquare("Jail", 10);
+        board[10] = new Jail("Jail", 10);
 
         // West side of the board
         board[11] = new Lot("St. Charles Place", 11, DARK_ORCHARD, 140, 10, 100, 50, 150, 450, 625, 
@@ -230,6 +230,19 @@ public class Game
 			{
 				int money = ((TaxSquare) currentLocation).getTax();
 				currentPlayer.removeMoney(money); // Tax square: getTax
+			}
+		}
+		if(currentLocation instanceof Jail)
+		{
+			if(action.equals("Pay Rent"))
+			{
+				int cost = ((Jail) currentLocation).getRent();
+				if(currentPlayer.getMoney() >= cost)
+				{
+					currentPlayer.removeMoney(cost);
+					BoardLocation newLocation = board[(currentPlayer.getBoardLocation() + 1) % 40];
+					currentPlayer.moveTo(newLocation);
+				}
 			}
 		}
 		moveMade = true;
