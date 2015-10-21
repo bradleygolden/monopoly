@@ -10,7 +10,7 @@ public class MonopolyGUI extends JApplet implements ActionListener
 {
     private static final String GAME_MODE = "demo"; // current mode the game is in
     private JFrame frame; // used for pop up windows
-    
+
     private JPanel northPanel; // main panel for north quadrant of app
 
     private JPlayerMenuPanel playerMenuPanel; // panel that includes user option buttons
@@ -214,11 +214,6 @@ public class MonopolyGUI extends JApplet implements ActionListener
             this.toggleActionButtons(false);
         }
 
-        // check if player rolled a double value
-        if (diceValues[0] == diceValues[1])
-        {
-            JOptionPane.showMessageDialog(frame, "You rolled a double, you can roll twice!");  
-        }
 
         // update the dice panel
         dicePanel.drawDice(diceValues[0], diceValues[1]);
@@ -258,6 +253,12 @@ public class MonopolyGUI extends JApplet implements ActionListener
                 {
                     hasMoved = true; // set hasMove to true to indicate that the player has moved
                     this.updateWindow(); // update GUI
+
+                    // check if player rolled a double value
+                    if (diceValues[0] == diceValues[1])
+                    {
+                        JOptionPane.showMessageDialog(frame, "You rolled a double, you can roll twice!");  
+                    }
                 }
                 else
                 {
@@ -270,7 +271,6 @@ public class MonopolyGUI extends JApplet implements ActionListener
             {
                 if(!game.nextTurn()) // set up board for next turn
                 {
-                    System.out.println("Error, nextTurn not successful.");
                     return;
                 }
                 else
@@ -357,7 +357,6 @@ public class MonopolyGUI extends JApplet implements ActionListener
             {
                 if(game.sellImprovement(properties[i]))
                 {
-                    System.out.println("Sell improvement");
                     this.updateWindow(); // update the window to display improved property
                 }
                 else
