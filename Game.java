@@ -416,7 +416,19 @@ public class Game
 		String s = "";
 		for(Player p : players)
 		{
-			s += p.toString() + "\n";
+			Property[] properties = p.getProperties();
+			if(properties == null)
+			{
+				s += p.simpleToString() + " Owns no properties\n";
+			}
+			else {
+				s += p.simpleToString() + " Owns properties:\n";
+				for(Property prop : properties)
+				{
+					s += "   " + prop.simpleToString() + "\n";
+				}
+			}
+			s += "\n";
 		}
 		return s;
 	}
