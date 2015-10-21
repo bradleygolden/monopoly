@@ -114,7 +114,7 @@ public class Utility extends Property
     //       (Name, Owner, Price, Rent)
     {   
         return "Name: "  + this.name     + " " +
-               "Owner: " + this.owner    + " " +            // owner could be null
+               "Owner: " + (this.owner == null ? "Bank" : this.owner)    + " " +
                "Price: " + this.price    + " " +
                "Rent: "  + this.baseRent;
     }   
