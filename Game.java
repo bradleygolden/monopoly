@@ -256,6 +256,10 @@ public class Game
 	public String leaveGame()
 	//POST: removes current player from game
 	{
+		if(players.length == 2) 
+		{
+			return "You cannot play Monopoly with less than too players... Duhh.";
+		}
 		String name = players[currentPlayerIndex].getToken();
 		int nextPlayer = (currentPlayerIndex + 1) % players.length;
 		Player[] newPlayers = new Player[players.length - 1];
@@ -270,7 +274,7 @@ public class Game
 		}
 		players = newPlayers;
 		currentPlayerIndex = (nextPlayer - 1) % players.length; // fix loop around in case out of bounds
-		return name;
+		return name + " has left the game";
 	}
 
 	public Property[] getProperties() 
