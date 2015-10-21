@@ -253,9 +253,10 @@ public class Game
 		return false;
 	}
 
-	public void leaveGame()
+	public String leaveGame()
 	//POST: removes current player from game
 	{
+		String name = players[currentPlayerIndex].getToken();
 		int nextPlayer = currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
 		Player[] newPlayers = new Player[players.length - 1];
 		players[currentPlayerIndex] = null;
@@ -269,6 +270,7 @@ public class Game
 		}
 		players = newPlayers;
 		currentPlayerIndex = nextPlayer % players.length; // fix loop around in case out of bounds
+		return name;
 	}
 
 	public Property[] getProperties() 
