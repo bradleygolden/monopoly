@@ -162,15 +162,24 @@ public class Game
         board[39] = new Lot("Boardwalk", 39, BLUE, 400, 50, 200, 200, 600, 1400, 1700, 2000);
 	}
 
-	public void makeMove()
+	public boolean makeMove()
 	// PRE: the dice will be rolled and the current player
 	//      will be moved to the new space on the board
+	//POST: will return true unless on Jail
 	{
 		Player current = players[currentPlayerIndex];
 		int[] roll = rollDice();
 		int rollNumber = roll[0] + roll[1];
 		BoardLocation newLocation = board[(rollNumber + current.getBoardLocation().getAddress()) % 40];
-		current.moveTo(newLocation);
+		if(current.getBoardLocation().getAddress() == 10) 
+		{
+			return false;
+		}
+		else
+		{
+			current.moveTo(newLocation);
+			return true;
+		}
 	}
 
 	
