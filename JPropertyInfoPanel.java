@@ -17,7 +17,7 @@ public class JPropertyInfoPanel extends JPanel
     public JPropertyInfoPanel(Property property)
     {
         this(); 
-        propertyInfo = new JLabel(property.toString()); // print property info
+        propertyInfo = new JLabel(property.simpleToString()); // print property info
         this.add(propertyInfo); // add property info to panel
     }
 
