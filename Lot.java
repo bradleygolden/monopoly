@@ -113,12 +113,17 @@ public class Lot extends Property
             this.numImprovements--;
     }
 
-    public void improve()
+    public boolean improve()
     // POST: class member numImprovments is increased by one if max improvements
     //       for this lot has not been reached
     {
         if(this.numImprovements <= 5)  // max number of improvements has not been reached
+        {
             this.numImprovements++;
+            return true;
+        }
+       
+        return false;
     }
 
     @Override
