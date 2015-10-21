@@ -223,14 +223,13 @@ public class Lot extends Property
         }
         else if (this.owner == player)                         // player owns this lot 
         {
-            // player can park for free or improve Lot
-            possibleActions = new String[3];
-            possibleActions[0] = POSSIBLE_ACTIONS[1];
-
             if (this.numImprovements > 0 &&                    // improvements on lot and
                 this.numImprovements < 5 &&                    //   player has enough money
                 player.getMoney() >= this.price)
             {
+
+                possibleActions = new String[3];
+                possibleActions[0] = POSSIBLE_ACTIONS[1];
                 possibleActions[1] = POSSIBLE_ACTIONS[3];      // Improve Lot
                 possibleActions[2] = POSSIBLE_ACTIONS[4];      // Sell improvement
                 return possibleActions;
@@ -238,20 +237,25 @@ public class Lot extends Property
             else if (this.numImprovements == 0 &&              // only action is to improve lot 
                      player.getMoney() >= this.price)          //   when there are no improvements
             {
+
+                possibleActions = new String[2];
+                possibleActions[0] = POSSIBLE_ACTIONS[1];
                 possibleActions[1] = POSSIBLE_ACTIONS[3];
-                possibleActions[2] = "";
                 return possibleActions;
             }
             else if (this.numImprovements == 5)                // only action is to sell
             {               
+                possibleActions = new String[2];
+                possibleActions[0] = POSSIBLE_ACTIONS[1];
                 possibleActions[1] = POSSIBLE_ACTIONS[4];
-                possibleActions[2] = "";
                 return possibleActions;
             }
-
-            possibleActions[1] = "";
-            possibleActions[2] = "";
-            return possibleActions;
+            else                                               // park for free
+            {
+                possibleActions = new String[1];
+                possibleActions[0] = POSSIBLE_ACTIONS[1];
+                return possibleActions;
+            }
         }
         else                                                   // all options exhausted 
         {   
