@@ -36,11 +36,37 @@ public class Game
 		{
 			addPlayer(100, Game.TOKENS[0], board[12]);
     		addPlayer(1000, Game.TOKENS[1], board[4]);
-    		addPlayer(10000, Game.TOKENS[2], board[15]);
     	
+    		players[0].addProperty((Property) board[1]);
+    		board[1].improveProperty();
+    		board[1].improveProperty();
+    		board[1].improveProperty();
+    		players[0].addProperty((Property) board[3]);
+    		board[3].improveProperty();
     		players[0].addProperty((Property) board[5]);
-    		players[1].addProperty((Property) board[23]);
-    		players[2].addProperty((Property) board[21]);
+    		players[0].addProperty((Property) board[6]);
+    		board[6].improveProperty();
+    		board[6].improveProperty();
+    		board[6].improveProperty();
+    		players[0].addProperty((Property) board[8]);
+    		board[8].improveProperty();
+    		players[0].addProperty((Property) board[9]);
+    		board[9].improveProperty();
+
+    		players[1].addProperty((Property) board[11]);
+    		board[11].improveProperty();
+    		board[11].improveProperty();
+    		board[11].improveProperty();
+    		players[1].addProperty((Property) board[12]);
+    		players[1].addProperty((Property) board[13]);
+    		board[13].improveProperty();
+    		players[1].addProperty((Property) board[14]);
+    		board[14].improveProperty();
+    		players[1].addProperty((Property) board[15]);
+    		players[1].addProperty((Property) board[16]);
+    		board[16].improveProperty();
+    		board[16].improveProperty();
+    		board[16].improveProperty();
 		}
 		else if(setting.equals("normal"))
 		{
