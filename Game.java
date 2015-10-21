@@ -192,11 +192,19 @@ public class Game
 			{
 				if(currentLocation instanceof Utility)
 				{
+					if(currentPlayer.getMoney() < ((Property) currentLocation).getRent(currentPlayer, diceState[0] + diceState[1])) 
+					{
+						return false; // cannot pay
+					}
 					currentPlayer.removeMoney(((Property) currentLocation).getRent(currentPlayer, diceState[0] + diceState[1]));
 					((Property) currentLocation).getOwner().addMoney(((Property) currentLocation).getRent(currentPlayer, diceState[0] + diceState[1]));
 				}
 				else
 				{
+					if(currentPlayer.getMoney() < ((Property) currentLocation).getRent(currentPlayer)) 
+					{
+						return false; // cannot pay
+					}
 					currentPlayer.removeMoney(((Property) currentLocation).getRent(currentPlayer));
 					((Property) currentLocation).getOwner().addMoney(((Property) currentLocation).getRent(currentPlayer));
 				}
