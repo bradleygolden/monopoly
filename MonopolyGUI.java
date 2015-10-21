@@ -8,14 +8,16 @@ import javax.swing.JOptionPane;
 
 public class MonopolyGUI extends JApplet implements ActionListener
 {
-    private static final String GAME_MODE = "demo"; // current mode the game is in
+    private static final String GAME_MODE = "normal"; // current mode the game is in
     private JFrame frame; // used for pop up windows
+    
+    private JPanel northPanel; // main panel for north quadrant of app
 
     private JPlayerMenuPanel playerMenuPanel; // panel that includes user option buttons
     private JGameOptionsPanel gameOptionsPanel; // panel that includes game options buttons
     private JPlayerInfoPanel playerInfoPanel; // panel that includes information about each player
     private JBoardLocationPanel boardLocationPanel; // panel that includes board location info
-    private JPropertyInfoPanel propertyInfoPanel; // panel that includes information about properties
+    private JPropertyInfoPanel[] propertyInfoPanel; // panel that includes information about properties
 
     private Game game; // holds the current state of the game
     private Player[] players; // player objects of all players currenly playing
@@ -25,7 +27,7 @@ public class MonopolyGUI extends JApplet implements ActionListener
     private String[] actions; // possible actions the current player can make
     private String locationName; // the current location name of the player's location
     private boolean hasMoved; //true if the player has moved, false if not 
-    private boolean disableActions; // true if the player has performed an action
+    private boolean performedAction; // true if the player has performed an action
 
     @Override
     public void init()
@@ -35,6 +37,7 @@ public class MonopolyGUI extends JApplet implements ActionListener
     }
 
     // POST: a game object is created with the current state set to GAME_MODE
+    //       initializes all game related instance variables
     private void startGame()
     {
         this.game = new Game(GAME_MODE); // set up game in predefined GAME_MODE
@@ -45,34 +48,23 @@ public class MonopolyGUI extends JApplet implements ActionListener
         this.locationColor = game.getColor(); // initialize current location color
         this.locationName = game.getLocationName(); // init first player's location name
         this.actions = game.getPossibleActions(); // init possible actions on starting location
+        this.hasMoved = false; // false to indicate that the first player hasn't moved
+        this.performedAction = false; // false to indicate that the player can't do any actions until moving
+    }
+
+    // POST: a new game object is created with the current state of the new game
+    private void restartGame()
+    {
+        this.startGame(); // reset all instance variables
+        this.updateWindow(); // update and repaint the window to reflect new game
     }
 
     // POST: a gui interface is created to represent the current game state
     private void setupMainWindow()
     {
-        // Needed API calls
-        // Game game = new Game();
-        // Players[] players = game.getPlayers();
-        // Properties[] properties = game.getProperties();
-        // String[] actions = game.getPossibleActions();
-        // game.rollDice();
-        // int[] rollValues = game.getDiceValues();
-        // game.nextTurn();
-        // Player player = game.getPlayer();
-        // Boardlocation location = game.getLocation();
-        // Color locationColor = game.getLocationColor();
-        // game.leaveGame();
-        // game.improveProperty(Property property);
-        // game.performAction(String action);
-
-        String[][] playerArr = {{"Dog", "Cash: 1000", "Location: Boardwalk"},
-            {"Top Hat", "Cash: 500", "Location: St. Charles Place"}};
-        String[] actions = {"Buy", "Park for free"};
-        String location = "Boardwalk";
-
         setLayout(new BorderLayout()); 
 
-        JPanel northPanel = new JPanel(); // main panel for north quadrant of app
+        northPanel = new JPanel(); // initialize northPanel
         JPanel westPadding = new JPanel(); // panel for padding
         JPanel southPadding = new JPanel(); // panel for padding
         JPanel eastPadding = new JPanel(); // panel for padding
@@ -119,7 +111,7 @@ public class MonopolyGUI extends JApplet implements ActionListener
         // Create array of propertyInfoPanels to display property info
         //
         int numProperties = 28;
-        JPropertyInfoPanel[] propertyInfoPanel = new JPropertyInfoPanel[numProperties];
+        propertyInfoPanel = new JPropertyInfoPanel[numProperties];
 
         for (int i = 0; i < numProperties; i++)
         {
@@ -143,31 +135,61 @@ public class MonopolyGUI extends JApplet implements ActionListener
         //add("East", eastPadding);
         add("Center", propertiesPanel);
     }
-    
+
+    // PRE: to be used to update all game related instance variables
+    // POST: updates all game related instance variables
+    private void updateGame()
+    {
+        currentPlayer = game.getPlayer(); // update the currentPlayer
+        players = game.getPlayers(); // update the players
+        properties = game.getProperties(); // update the properties
+        locationColor = game.getColor(); // update the current location color
+        actions = game.getPossibleActions(); // update the current possible actions for location
+        locationName = game.getLocationName(); // update the current location name
+    }
+
+    // POST: dynamically updates the player info panel
+    private void updatePlayerInfoPanel()
+    {
+        this.updateGame(); // update all game variables
+        this.playerInfoPanel.update(players, currentPlayer); // update player info panel contents
+        this.repaint(); // repaint gui
+    }
+
     // PRE: to be used immediately after Game.newTurn() has been called
     // POST: updates the board after Game.newTurn() is called
     private void updateWindow()
     {
-        currentPlayer = game.getPlayer(); // update the currentPlayer
-        locationName = game.getLocationName(); // update the current location name
-        locationColor = game.getColor(); // update the current location color
-        actions = game.getPossibleActions(); // update the current possible actions for location
-
+        this.updateGame();
         // update boardLocationPanel text, color, and possible actions
         boardLocationPanel.update(locationName, locationColor, actions);
 
         //
-        // boardLocationPanel actionListeners
+        // add boardLocationPanel button actionListeners
         //
         //iterate through each possible action button
         for (int i = 0; i < boardLocationPanel.actionButton.length; i++)
         {
+            // remove action listener if it exists
+            // this prevents multiple action listeners for the same button
+            boardLocationPanel.actionButton[i].removeActionListener(this);
             // add action listener to each possible action button
             boardLocationPanel.actionButton[i].addActionListener(this);
         }
 
         // update playerInfoPanel
         playerInfoPanel.update(this.players, this.currentPlayer);
+
+        // update propertyInfoPanel
+        for (int i = 0; i < propertyInfoPanel.length; i++)
+        {
+            // update property info panel
+            propertyInfoPanel[i].update(properties[i], currentPlayer.getProperties()); 
+
+            // add action listener to improve button
+            propertyInfoPanel[i].improve.addActionListener(this);
+        }
+        this.repaint();
     }
 
     // POST: disable possibleAction buttons in boardLocationPanel
@@ -199,41 +221,47 @@ public class MonopolyGUI extends JApplet implements ActionListener
             if (playerMenuPanel.turnButton.getText().equals("Roll dice") && hasMoved == false)
             {
                 game.makeMove(); // roll the dice for the current player
+                this.toggleActionButtons(true); //enable action buttons for use by player
                 hasMoved = true; // set hasMove to true to indicate that the player has moved
-
+                
                 // update board with new player info
                 this.updateWindow(); // update GUI
 
-                this.toggleActionButtons(true); //enable action buttons for use by player
-
+                playerMenuPanel.turnButton.setEnabled(false); // disable until user performs an action
                 playerMenuPanel.turnButton.setText("End turn"); // change text of button to End turn
             }
-            // player wants to end their turn, check if they've moved yet
-            else if (playerMenuPanel.turnButton.getText().equals("End turn") && hasMoved == true)
+            // player wants to end their turn, check if they've moved yet and peformed an action
+            else if (playerMenuPanel.turnButton.getText().equals("End turn") && hasMoved == true
+                    && performedAction == true)
             {
                 game.nextTurn(); // set up board for next turn
                 hasMoved = false; // set hasMoved flag to false for the next player
-                this.updateWindow(); // update GUI
-                this.toggleActionButtons(false); // disable action buttons
+                performedAction = false; // set performedAction to false for the next player
                 playerMenuPanel.turnButton.setText("Roll dice"); // change text of button to Roll dice
+                //this.toggleActionButtons(false); // disable action buttons
+                this.updateWindow(); // update GUI
+                this.toggleActionButtons(false); //disable action buttons
             }
         }
 
         if (e.getSource() == playerMenuPanel.leaveGameButton)
         {
-            System.out.println("leaveGameButton");
+            // TODO - test this functionality
+            game.leaveGame(); // remove the current player from the game
+            hasMoved = false; // reset hasMoved
+            performedAction = false; // reset actionPerformed
+            this.updateWindow(); // update the player window
         }
 
         // check if user wants to end the game
         if (e.getSource() == playerMenuPanel.endGameButton)
         {
-            // TODO - dispay end game results
-            // String[] results = game.status();
+            JOptionPane.showMessageDialog(frame, game.toString()); // dispaly end game results popup
+
             // TODO - fix this
-            //game = new Game(GAME_MODE); // init new game
             this.startGame(); // re-initlialize all game components
-            //playerMenuPanel.turnButton.setText("Roll dice");
             this.updateWindow(); // update window
+            //playerMenuPanel.turnButton.setText("Roll dice");
         }
 
         //
@@ -249,13 +277,37 @@ public class MonopolyGUI extends JApplet implements ActionListener
                     // attempt to perform a possible action
                     if(game.performAction(boardLocationPanel.actionButton[i].getText()))
                     {
-                        this.toggleActionButtons(false);
+                        performedAction = true; // user performed an action, set the flag
+                        this.updatePlayerInfoPanel(); // dynamically update player info panel
+                        playerMenuPanel.turnButton.setEnabled(true); // enable button after action
+                        this.toggleActionButtons(false); // disable action buttons
                     }
                     else
                     {
+                        // in case an error occurred
                         System.out.println("Action: " + boardLocationPanel.actionButton[i].getText()
                                 + " failed.");
                     }
+                }
+            }
+        }
+
+        ///
+        // actions for propertyInfoPanel
+        //
+        for (int i = 0; i < propertyInfoPanel.length; i++)
+        {
+            // check if user clicked the improve button
+            if(e.getSource() == propertyInfoPanel[i].improve)
+            {
+                if(game.improveProperty(properties[i]))
+                {
+                    this.updatePlayerInfoPanel(); // dynamically update player info panel
+                }
+                else
+                {
+                    // Display message to user
+                    JOptionPane.showMessageDialog(frame, "You cannot improve this property");  
                 }
             }
         }

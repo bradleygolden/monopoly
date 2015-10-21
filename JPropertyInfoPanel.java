@@ -3,37 +3,48 @@ import javax.swing.*;
 
 public class JPropertyInfoPanel extends JPanel
 {
-    protected JLabel name; // name of the property
-    protected JLabel price; // price of the property
-    protected JLabel owner; // owner of the property
-    protected JLabel improvements; // number of improvements made
-    protected JLabel rent; // rent of the current property
     protected JButton improve; // allow user to improve a property
     protected JLabel propertyInfo; // string of the given proprty toString()
 
     public JPropertyInfoPanel()
     {
         // do nothing
+        improve = new JButton("improve");
     }
 
+    // PRE: property != null
+    // POST: a JPropertyInfoPanel is created with property.toString() added to the panel
     public JPropertyInfoPanel(Property property)
     {
-        this();
-        propertyInfo = new JLabel(property.toString());
-        this.add(propertyInfo);
+        this(); 
+        propertyInfo = new JLabel(property.toString()); // print property info
+        this.add(propertyInfo); // add property info to panel
     }
 
-    // PRE: see following constructor
-    //      manageable -- indicates whether this property label should include manage buttons
-    // POST: see following constructor
-    //       improve -- JButton is created for the user to improve their property
-    public void oldFunc(String name, String price, String owner, String improvements, String rent,
-            boolean manageable)
+    // PRE: playerProperties may be null, 1, or > 1. property != null
+    // POST: this panel is updated with the current property string and 
+    //       an improve button
+    public void update(Property property, Property[] playerProperties)
     {
-        if (manageable) // this property can be managed
+        this.removeAll(); // clear this panel
+
+        improve = new JButton("Improve"); // initialize new improve button
+        propertyInfo = new JLabel(property.toString()); // get property info
+        this.add(propertyInfo); // add property label to this panel
+
+        if (playerProperties == null)
+            return; // player doesn't own properties
+
+        // iterate through all player properties
+        for (int i = 0; i < playerProperties.length; i++)
         {
-            improve = new JButton("Improve"); // create improve button for user
-            this.add(improve); // add button to panel
+            // if this property matches a player owned property
+            if (property == playerProperties[i])
+            {
+                // add improve button
+                this.add(improve); 
+                break;
+            }
         }
     }
 }

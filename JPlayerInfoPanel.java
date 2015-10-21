@@ -34,9 +34,9 @@ public class JPlayerInfoPanel extends JPanel
       for (Player aPlayer : players)
       {
           if (aPlayer == player) // the current player will be highlighted red and text is enlarged
-              playerInfoString += "<h3 style='color:red;'>" + aPlayer.toString() + "</h3>";
+              playerInfoString += "<h3 style='color:red;'>" + aPlayer.simpleToString() + "</h3>";
           else
-              playerInfoString += "<p>" + aPlayer.toString() + "</p>";
+              playerInfoString += "<p>" + aPlayer.simpleToString() + "</p>";
       }
 
       return playerInfoString += "</html>";
@@ -47,10 +47,7 @@ public class JPlayerInfoPanel extends JPanel
   //       the current player is highlighted red
   public void update(Player[] players, Player player)
   {
-      this.removeAll(); // remove all current players on the board
-      playerInfoString = this.getPlayerInfoString(players, player);
-      playerInfoLabel = new JLabel(playerInfoString); // label contains player details
-      this.add(playerInfoLabel);
+      playerInfoString = this.getPlayerInfoString(players, player); // get latest player info string
+      playerInfoLabel.setText(playerInfoString); // set label to newer player info string
   }
-
 }
