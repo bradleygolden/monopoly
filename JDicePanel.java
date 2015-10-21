@@ -5,26 +5,33 @@
 //
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.*;
 
 public class JDicePanel extends JPanel
 {
+    private int[] diceValues; // values of dice
 
     public JDicePanel()
     {
         super();
+        setLayout(new BorderLayout());
         setMinimumSize(new Dimension(200, 100));
+        setPreferredSize(new Dimension(200, 100));
+        diceValues = new int[] {1, 1};
     }
 
 
     public void drawDice(int a, int b)
     {
+        diceValues[0] = a;
+        diceValues[1] = b;
+
         Graphics g = getGraphics();
         int padding = 6;
         g.clearRect(0, 0, getWidth(), getHeight());
-        drawOne(g, padding, padding, (getWidth() / 2) - (2*padding), a, Color.BLACK);
-        drawOne(g, padding + (getWidth() / 2), padding, (getWidth() / 2) - (2*padding), b, Color.BLACK);
+        paint(getGraphics());
     }
 
     private void drawOne(Graphics g, int x, int y, int width, int number, Color color) 
@@ -90,20 +97,25 @@ public class JDicePanel extends JPanel
 
     public void paint(Graphics g)
     {
+        int padding = 6;
         super.paint(g);
-        System.out.println(getWidth());
         g.setColor(Color.RED);
-        g.fillRect(0, 0, getWidth(), getHeight());
-        drawDice(1, 1);
+
+        drawOne(g, padding, padding, (getWidth() / 2) - (2*padding), diceValues[0], Color.BLACK);
+        drawOne(g, padding + (getWidth() / 2), padding, (getWidth() / 2) - (2*padding), diceValues[1], Color.BLACK);
     }
 
-    public static void main(String[] args)
+    /*public static void main(String[] args)
     {
         JFrame f = new JFrame();
+        JDicePanel dice = new JDicePanel();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.add(new JDicePanel());
+        f.add(dice);
         f.show();
         f.pack();
         f.setVisible(true);
-    }
+        dice.drawDice(5, 6);
+        dice.drawDice(6, 6);
+        dice.drawDice(2, 2);
+    }*/
 }
