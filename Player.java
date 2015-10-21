@@ -128,7 +128,7 @@ public class Player
 
     public String simpleToString()
     {
-        return "Player \"" + token + "\" with $" + money + ", at " + location.toString();
+        return "Player \"" + token + "\" with $" + money + ", at " + location.getName();
     }
 
     @Override
