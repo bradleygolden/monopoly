@@ -12,7 +12,7 @@ public class JDicePanel extends JPanel
 
     public JDicePanel()
     {
-
+        super();
     }
 
 
