@@ -38,35 +38,35 @@ public class Game
     		addPlayer(1000, Game.TOKENS[1], board[4]);
     	
     		players[0].addProperty((Property) board[1]);
-    		board[1].improveProperty();
-    		board[1].improveProperty();
-    		board[1].improveProperty();
+    		((Lot) board[1]).improve();
+    		((Lot) board[1]).improve();
+    		((Lot) board[1]).improve();
     		players[0].addProperty((Property) board[3]);
-    		board[3].improveProperty();
+    		((Lot) board[3]).improve();
     		players[0].addProperty((Property) board[5]);
     		players[0].addProperty((Property) board[6]);
-    		board[6].improveProperty();
-    		board[6].improveProperty();
-    		board[6].improveProperty();
+    		((Lot) board[6]).improve();
+    		((Lot) board[6]).improve();
+    		((Lot) board[6]).improve();
     		players[0].addProperty((Property) board[8]);
-    		board[8].improveProperty();
+    		((Lot) board[8]).improve();
     		players[0].addProperty((Property) board[9]);
-    		board[9].improveProperty();
+    		((Lot) board[9]).improve();
 
     		players[1].addProperty((Property) board[11]);
-    		board[11].improveProperty();
-    		board[11].improveProperty();
-    		board[11].improveProperty();
+    		((Lot) board[11]).improve();
+    		((Lot) board[11]).improve();
+    		((Lot) board[11]).improve();
     		players[1].addProperty((Property) board[12]);
     		players[1].addProperty((Property) board[13]);
-    		board[13].improveProperty();
+    		((Lot) board[13]).improve();
     		players[1].addProperty((Property) board[14]);
-    		board[14].improveProperty();
+    		((Lot) board[14]).improve();
     		players[1].addProperty((Property) board[15]);
     		players[1].addProperty((Property) board[16]);
-    		board[16].improveProperty();
-    		board[16].improveProperty();
-    		board[16].improveProperty();
+    		((Lot) board[16]).improve();
+    		((Lot) board[16]).improve();
+    		((Lot) board[16]).improve();
 		}
 		else if(setting.equals("normal"))
 		{
