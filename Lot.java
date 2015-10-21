@@ -105,19 +105,22 @@ public class Lot extends Property
     //
     //}
 
-    public void sellImprovement()
-    // POST: class member numImprovements is decreased by one if numImprovements
-    //       for this lot has not reached zero
+    public boolean sellImprovement()
+    // POST: FCTVAL == true if improvement is sold, otherwise false
     {
         if(this.numImprovements > 0)   // cannot sell improvement if lot is not improved
+        {
             this.numImprovements--;
+            return true;
+        }
+
+        return false;
     }
 
     public boolean improve()
-    // POST: class member numImprovments is increased by one if max improvements
-    //       for this lot has not been reached
+    // POST: FCTVAL == true if Lot can be improved, otherwise false
     {
-        if(this.numImprovements <= 5)  // max number of improvements has not been reached
+        if(this.numImprovements < 5)  // max number of improvements has not been reached
         {
             this.numImprovements++;
             return true;
