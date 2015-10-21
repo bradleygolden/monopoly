@@ -157,13 +157,6 @@ public class Game
 		   currentLocation instanceof Railroad ||
 		   currentLocation instanceof Utility)
 		{
-			if(currentLocation instanceof Lot)
-			{
-				if(action.equals("Purchase Improvement"))
-				{
-					currentPlayer.removeMoney(((Lot) currentLocation).getImprovementCost());
-				}
-			}
 			if(action.equals("Purchase"))
 			{
 				currentPlayer.removeMoney(((Property) currentLocation).getPrice());
@@ -358,9 +351,14 @@ public class Game
 		if(p instanceof Lot)
 		{
 			int cost = ((Lot) p).getImprovementCost();
-			players[currentPlayerIndex].removeMoney(cost);
-			((Lot) p).improve();
-			return true;
+			if(players[currentPlayerIndex].getMoney() >= cost) {
+				players[currentPlayerIndex].removeMoney(cost);
+				((Lot) p).improve();
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
 			return false;
@@ -461,6 +459,8 @@ public class Game
     	g.performAction(arr[0]);
     	g.nextTurn();
 
+
+    	System.out.println(g.toString());
 
 	}
 
