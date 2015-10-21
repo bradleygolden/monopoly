@@ -18,6 +18,7 @@ public class MonopolyGUI extends JApplet implements ActionListener
     private JPlayerInfoPanel playerInfoPanel; // panel that includes information about each player
     private JBoardLocationPanel boardLocationPanel; // panel that includes board location info
     private JPropertyInfoPanel[] propertyInfoPanel; // panel that includes information about properties
+    private JDicePanel dicePanel; // panel to display dice values
 
     private Game game; // holds the current state of the game
     private Player[] players; // player objects of all players currenly playing
@@ -28,6 +29,7 @@ public class MonopolyGUI extends JApplet implements ActionListener
     private String locationName; // the current location name of the player's location
     private boolean hasMoved; //true if the player has moved, false if not 
     private boolean performedAction; // true if the player has performed an action
+    private int[] diceValues; // holds the current players dice roll values
 
     @Override
     public void init()
@@ -50,6 +52,9 @@ public class MonopolyGUI extends JApplet implements ActionListener
         this.actions = game.getPossibleActions(); // init possible actions on starting location
         this.hasMoved = false; // false to indicate that the first player hasn't moved
         this.performedAction = false; // false to indicate that the player can't do any actions until moving
+        this.diceValues = new int[2]; // initialize array for 2 dice values
+        this.diceValues[0] = -1; //initialize dice values
+        this.diceValues[1] = -1; //initialize dice values 
     }
 
     // POST: a new game object is created with the current state of the new game
@@ -73,19 +78,19 @@ public class MonopolyGUI extends JApplet implements ActionListener
         playerInfoPanel = new JPlayerInfoPanel(players, currentPlayer); // panel for player information details
         boardLocationPanel = new JBoardLocationPanel(this.locationName, this.locationColor,
                 this.actions); // displays current board location details
-
+        dicePanel = new JDicePanel(); // initialize new dice panel
 
         playerMenuPanel.setLayout(new GridLayout(1, 3)); // create new panel for player menu options
         propertiesPanel.setLayout(new GridLayout(28,1)); // allow for 28 editable properties
         northPanel.setLayout(new BorderLayout()); // create new borderlayout in north quad of app
-        boardLocationPanel.setLayout(new GridLayout(10,4)); // create new layout for center location
+        boardLocationPanel.setLayout(new GridLayout(10,1)); // create new layout for center location
         playerInfoPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); // align player details left
 
         // gameOptionsPanel.setBackground(Color.WHITE); // set background of player panel to white
         playerInfoPanel.setBackground(Color.WHITE); // set background of players info panel to white
         playerMenuPanel.setBackground(Color.WHITE); // set background of player menu panel to white
         boardLocationPanel.setBackground(new Color(220, 255, 193)); // monopoly board color
-        propertiesPanel.setBackground(new Color(220, 255, 193));
+        propertiesPanel.setBackground(new Color(220, 255, 193)); // monopoly board color
 
         //
         // setup action listeners
@@ -116,7 +121,7 @@ public class MonopolyGUI extends JApplet implements ActionListener
         for (int i = 0; i < numProperties; i++)
         {
             propertyInfoPanel[i] = new JPropertyInfoPanel(properties[i]); // add property info to panel
-            propertyInfoPanel[i].setLayout(new GridLayout(1,7)); // occupies 1 row and 7 columns
+            propertyInfoPanel[i].setLayout(new FlowLayout(FlowLayout.LEFT)); // occupies 1 row and 7 columns
             propertyInfoPanel[i].setBackground(new Color(220, 255, 193)); // monopoly board color
             propertiesPanel.add(propertyInfoPanel[i]);
         }
@@ -127,6 +132,7 @@ public class MonopolyGUI extends JApplet implements ActionListener
 
         northPanel.add("Center", playerInfoPanel);
         northPanel.add("South", playerMenuPanel);
+        northPanel.add("East", dicePanel);
 
         add("North", northPanel);
         add("West", boardLocationPanel);
@@ -145,6 +151,7 @@ public class MonopolyGUI extends JApplet implements ActionListener
         locationColor = game.getColor(); // update the current location color
         actions = game.getPossibleActions(); // update the current possible actions for location
         locationName = game.getLocationName(); // update the current location name
+        diceValues = game.getDiceValues(); // get dice values of current player's roll
     }
 
     // PRE: to be used immediately after Game.newTurn() has been called
@@ -178,8 +185,9 @@ public class MonopolyGUI extends JApplet implements ActionListener
             // update property info panel
             propertyInfoPanel[i].update(properties[i], currentPlayer.getProperties()); 
 
-            // add action listener to improve button
+            // add action listener to improve and sell improvements buttons
             propertyInfoPanel[i].improve.addActionListener(this);
+            propertyInfoPanel[i].sell.addActionListener(this);
         }
 
         // if player hasn't moved, allow user to click roll dice button
@@ -205,6 +213,15 @@ public class MonopolyGUI extends JApplet implements ActionListener
             playerMenuPanel.turnButton.setEnabled(true);
             this.toggleActionButtons(false);
         }
+
+        // check if player rolled a double value
+        if (diceValues[0] == diceValues[1])
+        {
+            JOptionPane.showMessageDialog(frame, "You rolled a double, you can roll twice!");  
+        }
+
+        // update the dice panel
+        dicePanel.drawDice(diceValues[0], diceValues[1]);
 
         this.repaint(); // repaint the gui window
     }
@@ -237,9 +254,16 @@ public class MonopolyGUI extends JApplet implements ActionListener
             // player wants to roll the dice, check if they've moved already
             if (hasMoved == false)
             {
-                game.makeMove(); // roll the dice for the current player
-                hasMoved = true; // set hasMove to true to indicate that the player has moved
-                this.updateWindow(); // update GUI
+                if(game.makeMove()) // roll the dice for the current player
+                {
+                    hasMoved = true; // set hasMove to true to indicate that the player has moved
+                    this.updateWindow(); // update GUI
+                }
+                else
+                {
+                    hasMoved = false; // player hasn't moved yet
+                    JOptionPane.showMessageDialog(frame, "You cannot roll the dice.");  
+                }
             }
             // player wants to end their turn, check if they've moved yet and peformed an action
             else if (hasMoved == true && performedAction == true)
@@ -295,7 +319,6 @@ public class MonopolyGUI extends JApplet implements ActionListener
                     // attempt to perform a possible action
                     if(game.performAction(boardLocationPanel.actionButton[i].getText()))
                     {
-                        System.out.println(boardLocationPanel.actionButton[i].getText());
                         performedAction = true; // user performed an action, set the flag
                         this.updateWindow();
                     }
@@ -327,6 +350,21 @@ public class MonopolyGUI extends JApplet implements ActionListener
                 {
                     // Display message to user
                     JOptionPane.showMessageDialog(frame, "You cannot improve this property.");  
+                }
+            }
+            // check if user clicked the sell improvements button
+            if(e.getSource() == propertyInfoPanel[i].sell)
+            {
+                if(game.sellImprovement(properties[i]))
+                {
+                    System.out.println("Sell improvement");
+                    this.updateWindow(); // update the window to display improved property
+                }
+                else
+                {
+                    // Display message to user
+                    JOptionPane.showMessageDialog(frame, "You cannot sell this properties" + 
+                            " improvments.");  
                 }
             }
         }

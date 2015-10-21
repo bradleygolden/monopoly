@@ -4,12 +4,13 @@ import javax.swing.*;
 public class JPropertyInfoPanel extends JPanel
 {
     protected JButton improve; // allow user to improve a property
+    protected JButton sell; // allow user to sell an improvement
     protected JLabel propertyInfo; // string of the given proprty toString()
 
     public JPropertyInfoPanel()
     {
-        // do nothing
-        improve = new JButton("improve");
+        improve = new JButton("Improve");
+        sell = new JButton("Sell");
     }
 
     // PRE: property != null
@@ -29,6 +30,9 @@ public class JPropertyInfoPanel extends JPanel
         this.removeAll(); // clear this panel
 
         improve = new JButton("Improve"); // initialize new improve button
+        //improve.setPreferredSize(new Dimension(40, 40)); // set dimesion of improve button
+        sell = new JButton("Sell Improvement"); // initialize new sell improvement button
+        //sell.setPreferredSize(new Dimension(40, 40)); // set dimesion of sell button
         propertyInfo = new JLabel(property.simpleToString()); // get property info
         this.add(propertyInfo); // add property label to this panel
 
@@ -44,6 +48,8 @@ public class JPropertyInfoPanel extends JPanel
             {
                 // add improve button
                 this.add(improve); 
+                // add sell button
+                this.add(sell);
                 break;
             }
         }
