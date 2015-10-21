@@ -33,6 +33,9 @@ public abstract class Property extends BoardLocation
 
     public abstract int getRent(Player player);
     // POST: FCTVAL == rent as an integer in dollar units for the current property
+    
+    public abstract int getRent(Player player, int diceValues);
+    // POST: FCTVAL == rent as an integer in dollar units for the current property
 
     public int getBaseRent()
     // POST: FCTVAL == return baseRent value of property
@@ -160,5 +163,12 @@ public abstract class Property extends BoardLocation
                                   + "Boundary case not accounted for";
             return possibleActions;
         }
+    }
+
+    public String toString()
+    // POST: FCTVAL == string representation of this property
+    {
+        return super.toString() + " Price: " + this.price + 
+                                  " Rent: "  + this.baseRent;
     }
 }

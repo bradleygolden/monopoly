@@ -1,8 +1,7 @@
-// Programmers:  Stephen Selke, Bradley Golden, Chris Griffith
+// Programmers: Stephen Selke, Bradley Golden, Chris Griffith
 // Assignment:  Project 2, Monopoly
 // Date:        October 6, 2015
-// Description: 
-//              
+// Description: This class models a player in monopoly
 
 public class Player 
 {

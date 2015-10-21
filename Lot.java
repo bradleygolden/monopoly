@@ -77,11 +77,8 @@ public class Lot extends Property
     public String toString()
     // POST: FCTVAL == string representation of this Lot
     {
-        return "Name: "    + this.name     + " " +
-               "Address: " + this.address  + " " +
-               "Color: "   + this.color    + " " + 
-               "Price: "   + this.price    + " " +            
-               "Rent:"     + this.baseRent + " " +           
+        return super.toString() +
+               "Color: "            + this.color           + " " + 
                "Improvement Cost: " + this.improvementCost + " " + 
                "One House: "    + this.rent[1] + " " + 
                "Two Houses: "   + this.rent[2] + " " + 
@@ -89,6 +86,17 @@ public class Lot extends Property
                "Four Houses: "  + this.rent[4] + " " + 
                "Hotel: "        + this.rent[5] + " " + 
                "";
+    }
+
+    public String simpleToString()
+    // POST: FCTVAL == simpler string representation of this lot 
+    //       (Name, Owner, Price, Rent, Number of Improvements)
+    {
+        return "Name: "  + this.name     + " " +
+               "Owner: " + this.owner    + " " +            // owner could be null
+               "Price: " + this.price    + " " +
+               "Rent: "  + this.baseRent + " " +
+               "Improvements: " + this.numImprovements;
     }
 
     //public void sell(Player player)
@@ -134,6 +142,12 @@ public class Lot extends Property
         {
             return -1;
         }
+    }
+
+    @Override
+    public int getRent(Player player, int diceValues)
+    {
+        return -1;
     }
 
     public Color getColor()

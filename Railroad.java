@@ -51,10 +51,10 @@ public class Railroad extends Property
 
             for(int i = 0; i < prop.length; i++)
             {
-                if(prop[i].getName() == "Reading Railroad" ||         // count number of railroads
-                   prop[i].getName() == "Pennsylvania Railroad" ||    // owned by this player
-                   prop[i].getName() == "B. & O. Railroad" ||         
-                   prop[i].getName() == "Short Line")
+                if(prop[i].getName().equals("Reading Railroad") ||      // count number of railroads
+                   prop[i].getName().equals("Pennsylvania Railroad") || // owned by this player
+                   prop[i].getName().equals("B. & O. Railroad") ||         
+                   prop[i].getName().equals("Short Line"))
                 {
                     count++;
                 }
@@ -82,4 +82,27 @@ public class Railroad extends Property
             return -1; 
         }
     }
+
+    @Override
+    public int getRent(Player player, int diceValues)
+    {
+        return -1;
+    }
+
+    public String toString()
+    // POST: FCTVAL == string representation of this railroad 
+    {
+        return super.toString();
+    }
+
+    public String simpleToString()
+    // POST: FCTVAL == simpler string representation of this lot 
+    //       (Name, Owner, Price, Rent)
+    {   
+        return "Name: "  + this.name     + " " +
+               "Owner: " + this.owner    + " " +            // owner could be null
+               "Price: " + this.price    + " " +
+               "Rent: "  + this.baseRent;
+    }   
+
 }
