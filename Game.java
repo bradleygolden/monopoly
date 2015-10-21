@@ -237,7 +237,14 @@ public class Game
 			if(action.equals("Pay Tax"))
 			{
 				int money = ((TaxSquare) currentLocation).getTax();
-				currentPlayer.removeMoney(money); // Tax square: getTax
+				if(currentPlayer.getMoney() < money)
+				{
+					return false; // can't pay
+				}
+				else
+				{
+					currentPlayer.removeMoney(money); // Tax square: getTax
+				}
 			}
 		}
 		if(currentLocation instanceof Jail)
@@ -250,6 +257,10 @@ public class Game
 					currentPlayer.removeMoney(cost);
 					BoardLocation newLocation = board[(currentPlayer.getBoardLocation().getAddress() + 1) % 40];
 					currentPlayer.moveTo(newLocation);
+				}
+				else 
+				{
+					return false; // can't pay
 				}
 			}
 		}
