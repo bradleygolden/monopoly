@@ -153,18 +153,17 @@ public class Game
 		Player currentPlayer = players[currentPlayerIndex];
 		BoardLocation currentLocation = players[currentPlayerIndex].getBoardLocation();
 
-		if(currentLocation instanceof Lot)
-		{
-			if(action.equals("Purchase Improvement"))
-			{
-				currentPlayer.removeMoney(((Lot) currentLocation).getImprovementCost());
-			}
-		}
-
 		if(currentLocation instanceof Lot ||
 		   currentLocation instanceof Railroad ||
 		   currentLocation instanceof Utility)
 		{
+			if(currentLocation instanceof Lot)
+			{
+				if(action.equals("Purchase Improvement"))
+				{
+					currentPlayer.removeMoney(((Lot) currentLocation).getImprovementCost());
+				}
+			}
 			if(action.equals("Purchase"))
 			{
 				currentPlayer.removeMoney(((Property) currentLocation).getPrice());
