@@ -92,10 +92,10 @@ public class Lot extends Property
     // POST: FCTVAL == simpler string representation of this lot 
     //       (Name, Owner, Price, Rent, Number of Improvements)
     {
-        return "Name: "  + this.name     + "\t" +
-               "Owner: " + (this.owner == null ? "Bank" : this.owner)    + "\t" + 
-               "Price: " + this.price    + "\t" +
-               "Rent: "  + this.baseRent + "\t" +
+        return "Name: "  + this.name     + " " +
+               "Owner: " + (this.owner == null ? "Bank" : this.owner.getToken()) + " " + 
+               "Price: " + this.price    + " " +
+               "Rent: "  + this.baseRent + " " +
                "Improvements: " + this.numImprovements;
     }
 

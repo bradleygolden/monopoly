@@ -100,7 +100,7 @@ public class Railroad extends Property
     //       (Name, Owner, Price, Rent)
     {   
         return "Name: "  + this.name     + " " +
-               "Owner: " + (this.owner == null ? "Bank" : this.owner)    + " " +
+               "Owner: " + (this.owner == null ? "Bank" : this.owner.getToken()) + " " +
                "Price: " + this.price    + " " +
                "Rent: "  + this.baseRent;
     }   
