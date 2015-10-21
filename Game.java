@@ -257,7 +257,7 @@ public class Game
 	//POST: removes current player from game
 	{
 		String name = players[currentPlayerIndex].getToken();
-		int nextPlayer = currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+		int nextPlayer = (currentPlayerIndex + 1) % players.length;
 		Player[] newPlayers = new Player[players.length - 1];
 		players[currentPlayerIndex] = null;
 		for(int i = 0, j = 0; i < players.length; i++)
