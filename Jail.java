@@ -9,8 +9,6 @@ public class Jail extends CornerSquare
 {
     private static final int JAILRENT = 150;   // Price to get out of Jail
 
-    private static final String[] POSSIBLE_ACTIONS =  {"Free Parking", 
-                                                          "Pay Rent"}; // Actions List
     public Jail()
     // POST: Jail object created
     {
@@ -34,15 +32,8 @@ public class Jail extends CornerSquare
 
     public String[] getPossibleActions(Player player)
     // POST: FCTVAL == string array of possible player actions
-    {
-    
-        String[] possibleActions;       // Gather strings of possible player actions
-    
-        possibleActions = new String[2];
-        possibleActions[0] = POSSIBLE_ACTIONS[0];
-        possibleActions[1] = POSSIBLE_ACTIONS[1];
-        
-        return possibleActions;
+    {  
+        return new String[] {"Pay Rent"};
     }
 
     @Override
