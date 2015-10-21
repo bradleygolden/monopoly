@@ -39,7 +39,8 @@ public class JPropertyInfoPanel extends JPanel
         for (int i = 0; i < playerProperties.length; i++)
         {
             // if this property matches a player owned property
-            if (property == playerProperties[i])
+            // only add button if the property is a lot
+            if (property == playerProperties[i] && property instanceof Lot)
             {
                 // add improve button
                 this.add(improve); 
