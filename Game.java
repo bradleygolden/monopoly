@@ -36,8 +36,6 @@ public class Game
 		{
 			addPlayer(100, Game.TOKENS[0], board[12]);
     		addPlayer(1000, Game.TOKENS[1], board[4]);
-
-    		addPlayer(151, Game.TOKENS[1], board[10]);
     	
     		players[0].addProperty((Property) board[1]);
     		((Lot) board[1]).improve();
@@ -171,15 +169,8 @@ public class Game
 		int[] roll = rollDice();
 		int rollNumber = roll[0] + roll[1];
 		BoardLocation newLocation = board[(rollNumber + current.getBoardLocation().getAddress()) % 40];
-		if(current.getBoardLocation().getAddress() == 10) 
-		{
-			return false;
-		}
-		else
-		{
-			current.moveTo(newLocation);
-			return true;
-		}
+		current.moveTo(newLocation);
+		return true;
 	}
 
 	
