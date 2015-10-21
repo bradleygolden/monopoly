@@ -14,7 +14,6 @@ public class MonopolyGUI extends JApplet implements ActionListener
     private JPanel northPanel; // main panel for north quadrant of app
 
     private JPlayerMenuPanel playerMenuPanel; // panel that includes user option buttons
-    private JGameOptionsPanel gameOptionsPanel; // panel that includes game options buttons
     private JPlayerInfoPanel playerInfoPanel; // panel that includes information about each player
     private JBoardLocationPanel boardLocationPanel; // panel that includes board location info
     private JPropertyInfoPanel[] propertyInfoPanel; // panel that includes information about properties
