@@ -12,8 +12,7 @@ This project requires the latest Java Development Kit. For more information visi
 
 ### Usage
 
-In your terminal type:
-`monopoly$ javac MonopolyGUI.java && appletviewer monopoly.html`
+`$ javac MonopolyGUI.java && appletviewer monopoly.html`
 
 ### Contributing
 
