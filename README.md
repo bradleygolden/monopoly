@@ -3,7 +3,16 @@
 ### Description
 
 This is a basic implementation of the famous board game Monopoly using Java and object orientated programming.
-Visit [this link](https://en.wikipedia.org/wiki/Monopoly_(game)) for more details.
+Visit [this link](https://en.wikipedia.org/wiki/Monopoly_(game)) for more details about the game of Monopoly.
+Visit [this link](https://docs.google.com/document/d/10uUFH8b2MV3thw5kzbY7Bl5L4EbntNnGyB9MLNnhwO0/edit?usp=sharing)
+for a report of this project.
+
+Some methods used in this project include:
+* Object orientated programming
+* Inheritance
+* Polymorphism
+* Java applets / GUI
+* Three-tier architecture
 
 ### Installation
 
