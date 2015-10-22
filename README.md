@@ -36,6 +36,7 @@ Software Design class (CS342).
 ### License
 
 No license other than this warning:
-DO NOT USE THIS CODE IF YOU ARE CURRENTLY IN CS342. Using
-this code would be considered plagiarism and would subject you
-to the full force of the law.
+DO NOT USE THIS CODE IF YOU ARE PLANNING ON COPYING IT FOR A 
+SCHOOL PROJECT. Using the code from this project would be considered 
+plagiarism and would subject you to the full force of the law. Use your
+best judgement and practice the art of being a good human being.
