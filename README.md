@@ -29,9 +29,9 @@ Software Design class (CS342).
 
 ### Credits
 
-*@bradleygolden - Contributed to the presentation tier and some aspects of the data tier.
-*@cgriffith792 - Contributed to the data tier.
-*@soyfestivo - Contributed to the business logic tier.
+* @bradleygolden - Contributed to the presentation tier and some aspects of the data tier.
+* @cgriffith792 - Contributed to the data tier.
+* @soyfestivo - Contributed to the business logic tier.
 
 ### License
 
