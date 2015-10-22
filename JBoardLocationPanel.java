@@ -1,3 +1,9 @@
+// Programmers: Stephen Selke, Bradley Golden, Chris Griffith
+// Assignment:  Project 2, Monopoly
+// Date:        October 21, 2015
+// Description: This class creates a panel that displays information about the current
+//              board location.
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.Color;

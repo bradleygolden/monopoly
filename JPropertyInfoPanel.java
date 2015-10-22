@@ -1,3 +1,8 @@
+// Programmers: Stephen Selke, Bradley Golden, Chris Griffith
+// Assignment:  Project 2, Monopoly
+// Date:        October 21, 2015
+// Description: This class creates a panel that contains information about a single property
+
 import java.awt.*;
 import javax.swing.*;
 

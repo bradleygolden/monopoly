@@ -1,3 +1,8 @@
+// Programmers: Stephen Selke, Bradley Golden, Chris Griffith
+// Assignment:  Project 2, Monopoly
+// Date:        October 21, 2015
+// Description: This class is the GUI interface for the Monopoly game
+
 import java.awt.*;
 import java.applet.*;
 import javax.swing.*;
@@ -288,11 +293,23 @@ public class MonopolyGUI extends JApplet implements ActionListener
         // player wants to leave the game
         if (e.getSource() == playerMenuPanel.leaveGameButton)
         {
+            // get the player name who's left or the warning if the player hasn't left
+            String leaveGameStr = game.leaveGame(); // only used in this block
             // remove the current player from the game
-            JOptionPane.showMessageDialog(frame, game.leaveGame());             
-            hasMoved = false; // reset hasMoved
-            performedAction = false; // reset actionPerformed
-            this.updateWindow(); // update the player window
+            JOptionPane.showMessageDialog(frame, leaveGameStr);             
+
+            // the player could not leave the game
+            if (leaveGameStr.equals("You cannot play Monopoly with less than two players... Duhh."))
+            {
+                // do nothing
+            }
+            // the player has left the game
+            else
+            {
+                hasMoved = false; // reset hasMoved
+                performedAction = false; // reset actionPerformed
+                this.updateWindow(); // update the player window
+            }
         }
 
         // check if user wants to end the game

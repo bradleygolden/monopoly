@@ -1,3 +1,8 @@
+// Programmers: Stephen Selke, Bradley Golden, Chris Griffith
+// Assignment:  Project 2, Monopoly
+// Date:        October 21, 2015
+// Description: This class provides a panel with player information
+
 import java.awt.*;
 import javax.swing.*;
 
