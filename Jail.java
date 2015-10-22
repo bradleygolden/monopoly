@@ -33,7 +33,7 @@ public class Jail extends CornerSquare
     public String[] getPossibleActions(Player player)
     // POST: FCTVAL == string array of possible player actions
     {  
-        return new String[] {"Pay Rent"};
+        return new String[] {"Pay Rent", "Free Parking"};
     }
 
     @Override
