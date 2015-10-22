@@ -37,7 +37,6 @@ public class Game
             // add players
             addPlayer(100, Game.TOKENS[0], board[12]);
             addPlayer(1000, Game.TOKENS[1], board[4]);
-            addPlayer(1000, Game.TOKENS[2], board[4]);
         
 
             // setup some demo settings
