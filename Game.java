@@ -345,7 +345,7 @@ public class Game
         currentPlayerIndex = (nextPlayer - 1) % players.length; // fix loop around in case out of bounds
         if(currentPlayerIndex == -1)
         {
-            currentPlayerIndex = players.length - 1;
+            currentPlayerIndex = 0;
         }
         return name + " has left the game";
     }
