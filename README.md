@@ -1,37 +1,39 @@
-## Description
+# monopoly
 
-This is a basic implementation of the famous board game Monopoly.
+### Description
+
+This is a basic implementation of the famous board game Monopoly using Java and object orientated programming.
 Visit [this link](https://en.wikipedia.org/wiki/Monopoly_(game)) for more details.
 
-## Installation
+### Installation
 
 This project requires the latest Java Development Kit. For more information visit
 [this link](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 
-## Usage
+### Usage
 
 In your terminal type:
 `monopoly$ javac MonopolyGUI.java && appletviewer monopoly.html`
 
-## Contributing
+### Contributing
 
 Fork it!
 Create your feature branch: git checkout -b my-new-feature
 Commit your changes: git commit -am 'Add some feature'
 Push to the branch: git push origin my-new-feature
 
-## History
+### History
 
 This project is requirement in the University of Illinois's
 Software Design class (CS342).
 
-## Credits
+### Credits
 
-@bradleygolden - Contributed to the presentation tier and some aspects of the data tier.
-@cgriffith792 - Contributed to the data tier.
-@soyfestivo - Contributed to the business logic tier.
+*@bradleygolden - Contributed to the presentation tier and some aspects of the data tier.
+*@cgriffith792 - Contributed to the data tier.
+*@soyfestivo - Contributed to the business logic tier.
 
-## License
+### License
 
 No license other than this warning:
 DO NOT USE THIS CODE IF YOU ARE CURRENTLY IN CS342. Using
