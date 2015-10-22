@@ -12,6 +12,7 @@ public class JPropertyInfoPanel extends JPanel
     protected JButton sell; // allow user to sell an improvement
     protected JLabel propertyInfo; // string of the given proprty toString()
 
+    // POST: a JPropertyInfo panel is created
     public JPropertyInfoPanel()
     {
         improve = new JButton("Improve");

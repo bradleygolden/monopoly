@@ -22,6 +22,7 @@ public class JBoardLocationPanel extends JPanel
 
     // PRE:  possibleUserActions = a string array of possible user actions
     //       boardLocation = the name of the user's location
+    //       color = valid Java color object
     // POST: a JBoardLocationPanel object is created with 2 components
     //    -- boardLocationLabel - JLabel containing the name of the player's location
     //    -- color = color of the board location
@@ -36,10 +37,13 @@ public class JBoardLocationPanel extends JPanel
 
     // see previous constructor
     // this method is used to not only initialize this panel but to update it as well
+    //
+    // PRE:  possibleUserActions = a string array of possible user actions
+    //       boardLocation = the name of the user's location
+    //       color = valid Java color object
+    // POST: an updated JBoardLocationPanel object
     public void update(String boardLocation, Color color, String[] possibleUserActions)
     {
-        //this.removeAll();
-
         // remove all old actionButtons prior to adding new ones
         if (actionButton != null)
         {
