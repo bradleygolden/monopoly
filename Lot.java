@@ -98,13 +98,6 @@ public class Lot extends Property
                "Improvements: " + this.numImprovements;
     }
 
-    //public void sell(Player player)
-    // PRE:
-    // POST:
-    //{
-    //
-    //}
-
     public boolean sellImprovement()
     // POST: FCTVAL == true if improvement is sold, otherwise false
     {
@@ -153,6 +146,9 @@ public class Lot extends Property
 
     @Override
     public int getRent(Player player, int diceValues)
+    // PRE: player is initialized and 1 <= diceValues <= 12
+    // POST: FCTVAL == -1 which means there was an error because
+    //       this method should not be used.
     {
         return -1;
     }

@@ -30,6 +30,8 @@ public class Player
     }
 
     public void moveTo(BoardLocation location) 
+    // PRE: location is initialized
+    //POST: sets this location to location
     {
         this.location = location;
     }
@@ -127,6 +129,7 @@ public class Player
     }
 
     public String simpleToString()
+    //POST: will return a simpler string representation of player
     {
         return "Player \"" + token + "\" with $" + money + ", at " + location.getName();
     }

@@ -5,10 +5,6 @@
 
 public class Railroad extends Property
 {
-    //private Property[] ownerProperties; // An array of properties owned by the player
-
-    //private int numRailroadsOwned;      // The number of railroads owned 
-                                          //   by the current owner of this RR
     public Railroad()
     // POST: a railroad object is created with price = 200, baseRent = 25
     {   
@@ -85,6 +81,7 @@ public class Railroad extends Property
 
     @Override
     public int getRent(Player player, int diceValues)
+    // POST: return error since method should not be used
     {
         return -1;
     }

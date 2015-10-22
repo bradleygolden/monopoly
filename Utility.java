@@ -5,9 +5,6 @@
 
 public class Utility extends Property
 {
-    //private int numUtilitiesOwned;      // The number of utilities owned by the current owner
-    //private Property[] ownerProperties; // An array of properties owned by the owner
-
     public Utility()
     //POST: Utility object is created with price set to 150, baseRent set to 1, ownerProperties
     //      initialized with an array of properties owned by the owner of this space, and 
@@ -16,9 +13,6 @@ public class Utility extends Property
         super();
         super.price = 150;             // price of a utility
         super.baseRent = 1;            // the baseRent without the dice multplier
-
-       // ownerProperties = super.owner.getProperties();
-       // numUtilitiesOwned = this.getNumUtilitiesOwned(); 
     }
 
     public Utility(String name, int address)
@@ -28,29 +22,7 @@ public class Utility extends Property
         super(name, address);
         super.price = 150;             // price of a utility
         super.baseRent = 1;            // the baseRent without the dice multplier
-        
-        // ownerProperties = super.owner.getProperties();
-        // numUtilitiesOwned = this.getNumUtilitiesOwned(); 
     }
-
-/*
-    private int getNumUtilitiesOwned()
-    // POST: FCTVAL == Number of utlities owned by the current owner
-    //                 Integer value in dollars where count >= 0 and count <= 2
-    {
-        int count = 0;
-
-        for (Property aProperty : ownerProperties) // loop through all properties owned by owner
-        {
-            if (aProperty instanceof Utility)      // check if a property is a utility
-            {
-                count++;                           // increment count if owner owns another utility
-            }
-        }
-
-        return count;                              // return count of utilities
-    }
-*/
 
     @Override
     public int getRent(Player player)
@@ -110,7 +82,7 @@ public class Utility extends Property
     }
 
     public String simpleToString()
-    // POST: FCTVAL == simpler string representation of this lot 
+    // POST: FCTVAL == simpler string representation of this utility 
     //       (Name, Owner, Price, Rent)
     {   
         return "Name: "  + this.name     + " " +
